@@ -10,6 +10,7 @@ import { MessagesComponent } from './messages/messages.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
+import { FinalprojectComponent } from './finalproject/finalproject.component';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { HttpClientModule } from '@angular/common/http';
     DashboardComponent,
     HeroesComponent,
     HeroDetailComponent,
-    MessagesComponent
+    MessagesComponent,
+    FinalprojectComponent
   ],
   bootstrap: [ AppComponent ]
 })
