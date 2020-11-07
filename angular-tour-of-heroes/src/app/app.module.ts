@@ -30,7 +30,7 @@ import { CloudmanagementComponent } from './cloudmanagement/cloudmanagement.comp
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
-    MatToolbarModule,
+    MatToolbarModule
   ],
   declarations: [
     AppComponent,

@@ -7,4 +7,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Tour of Heroes';
+  signedin(){
+    console.log("signedin");
+}
+  signedup(){
+    console.log("signedup");
+  }
+  menu_info(){
+    console.log("menu info clicked");
+  }
 }

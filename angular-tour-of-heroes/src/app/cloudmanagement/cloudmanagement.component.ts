@@ -6,14 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./cloudmanagement.component.css']
 })
 export class CloudmanagementComponent {
-  title = 'modeltestproject';
-  signedin(){
-    console.log("signedin");
-}
-  signedup(){
-    console.log("signedup");
-  }
-  menu_info(){
-    console.log("menu info clicked");
-  }
+  title = 'CloudManagementComponent';
+
 }
