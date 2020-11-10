@@ -11,6 +11,8 @@ import { MessagesComponent } from './messages/messages.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FinalprojectComponent } from './finalproject/finalproject.component';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 @NgModule({
   imports: [
@@ -25,7 +27,9 @@ import { FinalprojectComponent } from './finalproject/finalproject.component';
     HeroesComponent,
     HeroDetailComponent,
     MessagesComponent,
-    FinalprojectComponent
+    FinalprojectComponent,
+    SignInComponent,
+    SignUpComponent
   ],
   bootstrap: [ AppComponent ]
 })
