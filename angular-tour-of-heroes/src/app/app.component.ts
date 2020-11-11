@@ -8,7 +8,7 @@ import { UserLoginService } from './user-login.service';
 })
 export class AppComponent {
   constructor(private usrLogin: UserLoginService){}
-  title = 'Tour of Heroes'
+  title = 'MultiCloud'
   name:string
   lastname:string
   username:string

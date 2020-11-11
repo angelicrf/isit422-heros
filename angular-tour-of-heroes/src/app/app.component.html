@@ -3,7 +3,7 @@
      <button mat-icon-button class="btn btn-primary" [matMenuTriggerFor]="menu">
       <mat-icon>home</mat-icon>
       </button>
-      <span id="team_name">Yellow Team App</span>
+      <span id="team_name">Multicloud</span>
       <nav>
         <a  id="a_one">Features</a>
         <a  id="a_two">Services</a>
@@ -94,13 +94,16 @@
         </button>
       </div>
       </mat-menu>
-<h1>{{title}}</h1>
-<nav>
-  <a routerLink="/dashboard">Dashboard</a>
-  <br />
-  <a routerLink="/heroes">Heroes</a>
-  <br />
-  <a routerLink="/users">Users</a>
-</nav>
+
+<img src="../assets/multicloud.png" alt="multicloud Logo">
+<br />
+<br />
+<p>Welcome to the Multicloud app. This app allows you to access cloud storage services, and transfer files between them, or to and from your device.</p>
+<p>Mutlicloud  lets you manage files between multiple cloud storae services, such as DropBox, Google Drive, OneDrive, and Box.</p>
+<br />
+<p>To begin, click on the Sign Up button to create an account. If you already have an account, click on the Sign In button.</p>
+<br />
+<p>To associate services with your account, click on the menu icon, and navigate to the Manage Cloud Storage page.</p>
+<p>Enter your cloud account details, and then navigate to the File Transfer page to begin managing files.</p>
 <router-outlet></router-outlet>
 <app-messages></app-messages>
