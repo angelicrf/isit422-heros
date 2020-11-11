@@ -6,6 +6,9 @@ import { HeroesComponent } from './heroes/heroes.component';
 import { HeroDetailComponent } from './hero-detail/hero-detail.component';
 import { FinalprojectComponent } from './finalproject/finalproject.component'
 import { CloudmanagementComponent } from './cloudmanagement/cloudmanagement.component'
+import { SignInComponent } from './sign-in/sign-in.component'
+import { SignUpComponent } from './sign-up/sign-up.component';
+
 
 const routes: Routes = [
   { path: ' ', component: AppComponent },
@@ -13,7 +16,9 @@ const routes: Routes = [
   { path: 'detail/:id', component: HeroDetailComponent },
   { path: 'heroes', component: HeroesComponent },
   { path: 'users', component: FinalprojectComponent },
-  { path: 'cloudmanagement', component: CloudmanagementComponent }
+  { path: 'cloudmanagement', component: CloudmanagementComponent },
+  { path: 'sign-in', component: SignInComponent},
+  {path: 'sign-up', component: SignUpComponent}
 ];
 //FinalProjectComponent
 @NgModule({

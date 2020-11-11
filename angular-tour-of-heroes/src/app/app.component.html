@@ -86,13 +86,20 @@
         </button>
       </div>
       </mat-menu>
-<h1>{{title}}</h1>
-<nav>
-  <a routerLink="/dashboard">Dashboard</a>
-  <br />
-  <a routerLink="/heroes">Heroes</a>
-  <br />
-  <a routerLink="/users">Users</a>
-</nav>
+
+<img src="../../assets/multicloud.png" alt="multicloud Logo">
+<h2>Welcome to the Multicloud App</h2>
+<p>With Multicloud, you can manage files between multiple cloud storage services, such as DropBox, Google Drive, OneDrive, and Box</p>
+<br />
+<p>To begin, click on the Sign up button to create an account. If you already have an account, click on Sign In button</p>
+<br />
+<p>To associate services with your account, click on the menu icon in the top bar, and navigate to the Manage Cloud Storage Page.
+   Enter your Cloud account details. You must be signed into Multicloud app to do this.
+</p>
+<br />
+<p>To manage or transfer files, click on the menu icon in the top bar, and navigate to the File Transfer Page. You must be signed into
+  Multicloud app, and have at least one Cloud account configured & added.
+</p>
+
 <router-outlet></router-outlet>
 <app-messages></app-messages>
