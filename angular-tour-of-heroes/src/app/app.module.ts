@@ -18,6 +18,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FinalprojectComponent } from './finalproject/finalproject.component';
 import { CloudmanagementComponent } from './cloudmanagement/cloudmanagement.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { SignInComponent } from './sign-in/sign-in.component';
 
 @NgModule({
   imports: [
@@ -39,7 +41,9 @@ import { CloudmanagementComponent } from './cloudmanagement/cloudmanagement.comp
     HeroDetailComponent,
     MessagesComponent,
     FinalprojectComponent,
-    CloudmanagementComponent
+    CloudmanagementComponent,
+    SignUpComponent,
+    SignInComponent
   ],
   bootstrap: [ AppComponent ]
 })
