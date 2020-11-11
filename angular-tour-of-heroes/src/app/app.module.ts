@@ -19,6 +19,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { FinalprojectComponent } from './finalproject/finalproject.component';
 import { CloudmanagementComponent } from './cloudmanagement/cloudmanagement.component';
 import { FiletransferComponent } from './filetransfer/filetransfer.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { SignInComponent } from './sign-in/sign-in.component';
 
 @NgModule({
   imports: [
@@ -41,7 +43,9 @@ import { FiletransferComponent } from './filetransfer/filetransfer.component';
     MessagesComponent,
     FinalprojectComponent,
     CloudmanagementComponent,
-    FiletransferComponent
+    FiletransferComponent,
+    SignUpComponent,
+    SignInComponent
   ],
   bootstrap: [ AppComponent ]
 })
