@@ -18,6 +18,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FinalprojectComponent } from './finalproject/finalproject.component';
 import { CloudmanagementComponent } from './cloudmanagement/cloudmanagement.component';
+import { FiletransferComponent } from './filetransfer/filetransfer.component';
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import { CloudmanagementComponent } from './cloudmanagement/cloudmanagement.comp
     HeroDetailComponent,
     MessagesComponent,
     FinalprojectComponent,
-    CloudmanagementComponent
+    CloudmanagementComponent,
+    FiletransferComponent
   ],
   bootstrap: [ AppComponent ]
 })

@@ -1,0 +1,41 @@
+<div style="margin-left: 100px; width: 100%; overflow: hidden; align-content: center;">
+    <div style="width: 600px; float: left;">
+        <img src="assets/images/dropbox.png" width="64" height="64">
+        <label class="services">DropBox<br>jdoe@hotmail.com</label><br>
+        <label class="services">Filters:</label>
+        <div class="boxes">
+          <ul class="filesandfolders">
+            <li *ngFor="let fol of folders">
+              <img src="assets/images/folder.png" width="70" height="60">
+              <span class="filesandfolderstext">{{fol}}</span>
+            </li>
+          </ul>
+          <ul class="filesandfolders" style="margin-left: 20px;">
+            <li *ngFor="let fil of files1">
+              <img src="assets/images/file.png" width="60" height="64">
+              <span class="filesandfolderstext">{{fil}}</span>
+            </li>
+          </ul>
+        </div>
+    </div>
+    <div style="margin-left: 620px;">
+      <img src="assets/images/googledrive.png" width="64" height="58">
+      <label class="services">Google Drive<br>janedoe@gmail.com</label><br>
+      <label class="services">Filters: Documents</label>
+      <div class="boxes">
+        <ul class="filesandfolders">
+          <li *ngFor="let fol of folders">
+            <img src="assets/images/folder.png" width="70" height="60">
+            <span class="filesandfolderstext">{{fol}}</span>
+          </li>
+        </ul>
+        <ul class="filesandfolders" style="margin-left: 20px;">
+          <li *ngFor="let fil of files2">
+            <img src="assets/images/file.png" width="60" height="64">
+            <span class="filesandfolderstext">{{fil}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+</div>
+  
