@@ -1,19 +1,24 @@
 <div class="row">
     <div class="column">
-        <img src="../../assets/multicloud.png" alt="multicloud Logo">
-    </div>
-    <div class="column">
         <h3>Sign In</h3>
         <form>
+            <div class="form-group">
             <label for="uname">User name:  </label>
-            <input type="text" id="uname" name="uname">
+           <input type="text" id="userNameSiInput" name="userNameSiInput" #userNameSiInput="ngModel" [(ngModel)]="username" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="jdoe" required>
+                <div class="alert alert-danger" *ngIf="userNameSiInput.invalid && (userNameSiInput.dirty || userNameSiInput.touched)">
+                  <pre *ngIf="userNameSiInput.errors.required">Required</pre>
+                </div>
+            </div>
             <br />
-            <br />
+            <div class="form-group">
             <label for="pword">Password:  </label>
-            <input type="text" id="pword" name="pword">
-            <br />    
-        </form>
-        <br />
-        <button type="button">Sign In to Account</button>
+            <input type="password" id="pswSiInput" name="pswSiInput" #pswSiInput="ngModel" [(ngModel)]="password"  [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Password" required>
+                <div class="alert alert-danger" *ngIf="pswSiInput.invalid && (pswSiInput.dirty || pswSiInput.touched)">
+                  <pre *ngIf="pswSiInput.errors.required">Required</pre>
+                </div>
+            </div>
+            <br />  
+            <button type="submit" class="btn btn-info" (click)="signedin()">Sign in to Account</button>  
+        </form>  
     </div>
 </div>

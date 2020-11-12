@@ -28,7 +28,7 @@ export class AppComponent {
     let newSignedup = []
     newSignedup.push(newName,newlastName,newUserName,newEmail,newPassword)
     console.log('signedup array is '  + newSignedup);
-    this.usrLogin.userSiginUp(newName,newlastName,newUserName,newPassword)
+    this.usrLogin.userSiginUp(newName,newlastName,newUserName,newEmail,newPassword)
     return newSignedup
   }
   menu_info(){

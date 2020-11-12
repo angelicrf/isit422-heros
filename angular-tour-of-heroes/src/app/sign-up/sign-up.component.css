@@ -1,7 +1,12 @@
 .row {
     display: flex;
+    margin-left: 50px;
+    margin-top: 50px;
   }
   
   .column {
     flex: 20%;
+  }
+  .form-group{
+    width: 300px;
   }

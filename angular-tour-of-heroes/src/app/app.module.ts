@@ -20,6 +20,7 @@ import { FinalprojectComponent } from './finalproject/finalproject.component';
 import { CloudmanagementComponent } from './cloudmanagement/cloudmanagement.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   imports: [
@@ -43,7 +44,8 @@ import { SignUpComponent } from './sign-up/sign-up.component';
     FinalprojectComponent,
     CloudmanagementComponent,
     SignInComponent,
-    SignUpComponent
+    SignUpComponent,
+    HomeComponent
   ],
   bootstrap: [ AppComponent ]
 })

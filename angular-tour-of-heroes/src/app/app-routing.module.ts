@@ -8,17 +8,18 @@ import { FinalprojectComponent } from './finalproject/finalproject.component'
 import { CloudmanagementComponent } from './cloudmanagement/cloudmanagement.component'
 import { SignInComponent } from './sign-in/sign-in.component'
 import { SignUpComponent } from './sign-up/sign-up.component';
-
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
-  { path: ' ', component: AppComponent },
+  { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent} ,
   { path: 'dashboard', component: DashboardComponent },
   { path: 'detail/:id', component: HeroDetailComponent },
   { path: 'heroes', component: HeroesComponent },
   { path: 'users', component: FinalprojectComponent },
   { path: 'cloudmanagement', component: CloudmanagementComponent },
   { path: 'sign-in', component: SignInComponent},
-  {path: 'sign-up', component: SignUpComponent}
+  { path: 'sign-up', component: SignUpComponent}
 ];
 //FinalProjectComponent
 @NgModule({
