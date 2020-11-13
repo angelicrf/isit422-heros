@@ -1,6 +1,10 @@
-<div class="row">
+
+<div [(ngModel)]="sUpisSingedUp" ngDefaultControl [ngModelOptions]="{standalone: true}"></div>
+<h3 *ngIf="readLocalStorageValue('userSignedUp') == 'SignedUpUser'">{{signedUpName}}</h3>
+<h3 *ngIf="readLocalStorageValue('userSignedUp') === null">{{signUpName}}</h3>
+<h4 *ngIf="sUpisSingedUp || readLocalStorageValue('userSignedUp') == 'SignedUpUser'">Dear customer, you are already Signed up</h4>
+<div [hidden]="sUpisSingedUp || readLocalStorageValue('userSignedUp') == 'SignedUpUser'" class="row">
     <div class="column">
-        <h3>Sign Up</h3>
         <form>
             <div class="form-group">
             <label for="fname">First name:  </label>
@@ -18,7 +22,6 @@
                 </div>
             </div>
             <br />
-            {{isError}}
             <div class="form-group">
             <label for="uname">User name:  </label>
             <input type="text" id="userNameInput" name="userNameInput" #userNameInput="ngModel" [(ngModel)]="username" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="jdoe" required>
@@ -45,7 +48,7 @@
             </div>
             </div>
             <br />
-            <button type="submit" class="btn btn-danger" (click)="signedup()">Create Account</button>  
+            <button type="submit" class="btn btn-danger" [disabled]="!nameInput.valid || !lastNameInput.valid || !userNameInput.valid || !emailInput.valid || !pswInput.valid" (click)="signedup()">Create Account</button>  
         </form>
         <br />   
     </div>

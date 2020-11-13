@@ -12,13 +12,19 @@ export class SignUpComponent implements OnInit {
   username:string
   email:string
   password:string
-  isError:boolean = true
+  signedUpName = "Signed Up"
+  signUpName = "Sign Up"
+  sUpisSingedUp:boolean = false
 
   constructor(private usrLogin: UserLoginService) { }
 
   ngOnInit(): void {
   }
+  readLocalStorageValue(key) {
+    return localStorage.getItem(key)
+  }
   signedup() {
+    if(localStorage.getItem('userSignedUp') === null){
     let newName = this.name
     let newlastName = this.lastname
     let newUserName = this.username
@@ -29,8 +35,11 @@ export class SignUpComponent implements OnInit {
     newSignedup.push(newName,newlastName,newUserName,newEmail,newPassword)
     console.log('signedup array is '  + newEmail + ' ' + newPassword)
     this.usrLogin.userSiginUp(newName,newlastName,newUserName,newEmail,newPassword)
-   
-    return newSignedup
-
+    this.sUpisSingedUp = true
+    this.usrLogin.isSingedUp = true
+    localStorage.setItem('userSignedUp','SignedUpUser')
+    window.location.replace("http://localhost:4200/home")
+    return this.usrLogin.isSingedUp
+    }
   }
 }

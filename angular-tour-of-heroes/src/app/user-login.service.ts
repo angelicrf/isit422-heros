@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class UserLoginService {
+  isSingedUp:boolean = false
+  isSingedIn:boolean = false
 
   constructor() { }
   userSiginUp(userName:string,userlastName:string,userUserName:string,userEmail:string,userPassword:string){

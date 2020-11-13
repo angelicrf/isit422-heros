@@ -4,7 +4,6 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-cloudmanagement',
   templateUrl: './cloudmanagement.component.html',
   styleUrls: ['./cloudmanagement.component.css']
-  //, template: ''
 })
 export class CloudmanagementComponent {
   title = 'CloudManagementComponent';
@@ -14,7 +13,6 @@ export class CloudmanagementComponent {
     'Images to DropBox',
     'Documents to Google Drive'
   ]
-
   // filters = new FormArray([]);
 
   // addFilter(filter: String): void {

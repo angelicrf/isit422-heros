@@ -11,5 +11,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  readLocalStorageValue(key) {
+    return localStorage.getItem(key)
+  }
 }

@@ -1,6 +1,10 @@
-<div class="row">
+<div [(ngModel)]="sInisSingedIn" ngDefaultControl [ngModelOptions]="{standalone: true}"></div>
+<h3 *ngIf="readLocalStorageValue('userSignedIn') == 'SignedUser'">{{signedInName}}</h3>
+<h3 *ngIf="readLocalStorageValue('userSignedIn') === null">{{signInName}}</h3>
+<h4 *ngIf="sInisSingedIn || readLocalStorageValue('userSignedIn')== 'SignedUser'">Dear customer, you are already logged in</h4>
+<button *ngIf="sInisSingedIn || readLocalStorageValue('userSignedIn')== 'SignedUser'" (click)="customerLogOut()">Logg Out</button>
+<div [hidden]="sInisSingedIn || readLocalStorageValue('userSignedIn')== 'SignedUser'" class="row">
     <div class="column">
-        <h3>Sign In</h3>
         <form>
             <div class="form-group">
             <label for="uname">User name:  </label>
@@ -18,7 +22,9 @@
                 </div>
             </div>
             <br />  
-            <button type="submit" class="btn btn-info" (click)="signedin()">Sign in to Account</button>  
-        </form>  
+            <button type="submit" class="btn btn-info" [disabled]="!userNameSiInput.valid || !pswSiInput.valid " (click)="signedin()">Sign in to Account</button> 
+        </form> 
+        <p>First name value: {{ userNameSiInput.value }}</p>
+        <p>First name valid: {{ userNameSiInput.valid }}</p>
     </div>
 </div>

@@ -7,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FiletransferComponent implements OnInit {
 
+  constructor() { }
+
+  ngOnInit(): void {
+  }
   folders: String[] = [
     'Folder 01'
   ]
@@ -19,10 +23,4 @@ export class FiletransferComponent implements OnInit {
   files2: String[] = [
     'Document 01'
   ]
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }

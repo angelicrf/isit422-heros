@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { UserLoginService } from '../user-login.service';
 
 @Component({
@@ -10,18 +11,24 @@ export class SignInComponent implements OnInit {
 
   username:string
   password:string
-
+  sInisSingedIn:boolean = false
+  signInName = "Sign In"
+  signedInName = "Logged In"
   constructor(private usrLogin: UserLoginService) { }
 
   ngOnInit(): void {
   }
+  readLocalStorageValue(key) {
+    return localStorage.getItem(key)
+  }
+  customerLogOut(){
+    localStorage.removeItem('userSignedIn')
+  }
   signedin() {
-   /*  console.log('signedin');
-       if(localStorage.length != 0){
-      this.username = localStorage.getItem('clientEmail')
-      this.password = localStorage.getItem('clientPassword')
-    }  
-     else{ */
+    console.log('signedin');
+    
+    if(localStorage.getItem('userSignedIn') === null){
+      
       this.usrLogin.userSignIn()
       .then(res => {
         console.log("All from app comp " + JSON.stringify(res))
@@ -51,8 +58,15 @@ export class SignInComponent implements OnInit {
             passwordFound = true
            }
        if(userNameFound && passwordFound){
-         
-            alert('user name and password found user is signed in')
+         this.sInisSingedIn = true
+         this.signInName = this.signedInName
+        if(localStorage.getItem('userSignedUp') == 'SignedUpUser'){
+          localStorage.removeItem('userSignedUp')
+         }
+         localStorage.setItem('userSignedIn', 'SignedUser')
+         window.location.replace("http://localhost:4200/home")
+         alert('user name and password found user is signed in')
+            return this.usrLogin.isSingedIn = true
          }       
        if(userNameFound && passwordFound == false) {
           alert('password doesnot match up, try again')
@@ -68,6 +82,6 @@ export class SignInComponent implements OnInit {
     } 
   }
    
-//}
+}
 
 
