@@ -3,7 +3,7 @@
      <button mat-icon-button class="btn btn-primary" [matMenuTriggerFor]="menu">
       <mat-icon>home</mat-icon>
       </button>
-      <span id="team_name">Yellow Team App</span>
+      <span id="team_name">Multicloud</span>
       <nav>
         <a routerLink="/cloudmanagement" id="a_one">Cloud Management</a>
         <a routerLink="/sign-in" id="a_two">SignIn</a>
@@ -23,6 +23,14 @@
         <button mat-menu-item routerLink="/sign-up">
           <mat-icon>info</mat-icon>
           <span>SignUp</span>
+        </button>
+        <button mat-menu-item routerLink="/cloudmanagement" >
+          <mat-icon>cloud</mat-icon>
+          <span>Cloud Management</span>
+        </button>
+        <button mat-menu-item routerLink="/filetransfer" >
+          <mat-icon>folder</mat-icon>
+          <span>File Transfer</span>
         </button>
       </div>
       </mat-menu>

@@ -18,9 +18,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FinalprojectComponent } from './finalproject/finalproject.component';
 import { CloudmanagementComponent } from './cloudmanagement/cloudmanagement.component';
-import { SignInComponent } from './sign-in/sign-in.component';
-import { SignUpComponent } from './sign-up/sign-up.component';
 import { HomeComponent } from './home/home.component';
+import { FiletransferComponent } from './filetransfer/filetransfer.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { SignInComponent } from './sign-in/sign-in.component';
 
 @NgModule({
   imports: [
@@ -43,9 +44,10 @@ import { HomeComponent } from './home/home.component';
     MessagesComponent,
     FinalprojectComponent,
     CloudmanagementComponent,
-    SignInComponent,
+    HomeComponent,
+    FiletransferComponent,
     SignUpComponent,
-    HomeComponent
+    SignInComponent
   ],
   bootstrap: [ AppComponent ]
 })

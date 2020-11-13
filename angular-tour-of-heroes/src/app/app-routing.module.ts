@@ -9,6 +9,7 @@ import { CloudmanagementComponent } from './cloudmanagement/cloudmanagement.comp
 import { SignInComponent } from './sign-in/sign-in.component'
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { HomeComponent } from './home/home.component';
+import { FiletransferComponent } from './filetransfer/filetransfer.component'
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'cloudmanagement', component: CloudmanagementComponent },
   { path: 'sign-in', component: SignInComponent},
   { path: 'sign-up', component: SignUpComponent}
+  { path: 'filetransfer', component: FiletransferComponent }
 ];
 //FinalProjectComponent
 @NgModule({
