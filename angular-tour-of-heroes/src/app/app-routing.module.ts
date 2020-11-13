@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: 'users', component: FinalprojectComponent },
   { path: 'cloudmanagement', component: CloudmanagementComponent },
   { path: 'sign-in', component: SignInComponent},
-  { path: 'sign-up', component: SignUpComponent}
+  { path: 'sign-up', component: SignUpComponent},
   { path: 'filetransfer', component: FiletransferComponent }
 ];
 //FinalProjectComponent
