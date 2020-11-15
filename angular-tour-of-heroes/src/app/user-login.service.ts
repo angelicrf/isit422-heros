@@ -31,7 +31,7 @@ export class UserLoginService {
   }
   userSignIn(){
     return new Promise((resolve, reject) => {
-    fetch('/api/UserMongoCR', {
+    fetch('/api/MCUserByUsrNmPwd', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -40,16 +40,16 @@ export class UserLoginService {
     })
       .then(response => {return response.json()})
       .then(getdata => {
-        //console.log("getdata from Service " + JSON.stringify(getdata))
+        console.log("getdata from Service " + JSON.stringify(getdata))
         let findAllMongoData = []
-        
-        getdata.forEach(element => {  
+        //Since there is only one data we do not need to loop
+        //getdata.forEach(element => {  
           let newUserMongoData = {}
-          newUserMongoData['clientUserName'] = element.username
-          newUserMongoData['clientPassword'] = element.password
+          newUserMongoData['clientUserName'] = getdata.username
+          newUserMongoData['clientPassword'] = getdata.password
           findAllMongoData.push(newUserMongoData) 
-        })
-        //console.log("elementEmail from Service " + JSON.stringify(findAllMongoData))
+        ///})
+        console.log("elementEmail from Service " + JSON.stringify(findAllMongoData))
           resolve(findAllMongoData)
       })
       .catch((err) => console.log("Error getdata from Service " + err))

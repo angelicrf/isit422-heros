@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { UserLoginService } from '../user-login.service';
 
 @Component({
@@ -24,9 +23,27 @@ export class SignInComponent implements OnInit {
   customerLogOut(){
     localStorage.removeItem('userSignedIn')
   }
+  sendUserInfo(){
+    let userValue = JSON.stringify({
+      username: this.username, 
+      password: this.password
+    })
+    let myHeaders = new Headers();
+      myHeaders.append('Content-Type', 'application/json');
+    return fetch('/api/MCUserInfo',{
+      method: 'POST',
+      headers: myHeaders,
+      body: userValue
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+      this.signedin()
+    })
+    .catch(err => console.log(err))
+  }
   signedin() {
     console.log('signedin');
-    
     if(localStorage.getItem('userSignedIn') === null){
       
       this.usrLogin.userSignIn()
