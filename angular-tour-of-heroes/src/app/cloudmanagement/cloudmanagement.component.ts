@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FilterService } from '../filter.service';
 
 @Component({
   selector: 'app-cloudmanagement',
@@ -6,17 +7,68 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./cloudmanagement.component.css']
 })
 export class CloudmanagementComponent {
+  
+  constructor(public filterService: FilterService) {}
+  
   title = 'CloudManagementComponent';
   checked = false;
 
-  filters: String[] = [
-    'Images to DropBox',
-    'Documents to Google Drive'
+  addFilterForm = false;
+
+  dropboxForm = false;
+  googleDriveForm = false;
+  oneDriveForm = false;
+  boxForm = false;
+
+  dbAccount = {
+    "username": "",
+    "password": ""
+  }
+  gdAccount = {
+    "username": "",
+    "password": ""
+  }
+  odAccount = {
+    "username": "",
+    "password": ""
+  }
+  bAccount = {
+    "username": "",
+    "password": ""
+  }
+
+  fileTypes: String[] = [
+    'Audio',
+    'Documents',
+    'Images',
+    'Videos'
   ]
-  // filters = new FormArray([]);
+  fileType: String;
 
-  // addFilter(filter: String): void {
-  //   this.filters.push(filter);
-  // }
+  services: String[] = [
+    'Dropbox',
+    'Google Drive',
+    'OneDrive',
+    'Box'
+  ]
+  service: String;
 
+  filters: String[];
+
+  ngOnInit(): void {
+    this.getFilters();
+  }
+
+  getFilters(): void {
+    this.filters = this.filterService.getFilters();
+  }
+
+  addFilter(filter: String): void {
+    if(!this.filters.includes(filter) && !filter.includes("undefined"))
+      this.filters.push(filter);
+  }
+
+  linkAccount(): void {
+    // This should link the account if the passed in username and password are accurate
+  }
 }

@@ -1,5 +1,5 @@
 
-.text-input-wrapper {
+/* .text-input-wrapper {
     font-size: 14px;
     font-weight: 400;
     border-radius: 0;
@@ -7,6 +7,11 @@
     padding-left: 18px;
     height: 44px;
     margin-bottom: 0;
+} */
+.new-filter {
+    border-radius: 5;
+    width: 210px;
+    margin-bottom: 5px;
 }
 
 .example-margin {
@@ -19,13 +24,33 @@
     margin: 0; 
 }
 
-li{
+li {
     margin: 10px 0;
 }
 
-.services {
-    padding-top: 8px;
-    margin: 0 20px;
+.services, .services-button {
+    margin: 20px 20px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.services-button, .delete-button {
+    background: none;
+    border: none;
+    outline: 0;
+}
+
+.delete-button {
+    color: rgb(155, 164, 177);
+}
+
+.services-button:hover {
+    background: rgb(220, 235, 255);
+}
+
+.service-input {
+    margin-top: 20px;
+    margin-right: 5px;
 }
 
 input[type=checkbox] {

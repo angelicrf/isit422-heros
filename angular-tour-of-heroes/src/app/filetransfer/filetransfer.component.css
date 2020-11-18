@@ -1,7 +1,19 @@
-.services {
-    padding-top: 8px;
-    margin: 0 20px;
+.services, .services-button {
+    margin: 10px 20px;
+    text-align: left;
+    vertical-align: middle;
 }
+
+.services-button {
+    background: none;
+    border: none;
+    outline: 0;
+}
+
+.services-button:hover {
+    background: rgb(220, 235, 255);
+}
+
 .boxes {
     margin-top: 10px;
     width: 400px;
@@ -10,15 +22,18 @@
     border-radius:40px;
     border:2px solid rgb(207, 207, 207);
 }
+
 .filesandfolders {
     list-style-type: none; /* Remove bullets */
     margin: 0;
     padding: 0;
 }
+
 li{
     margin-top: 20px;
     margin-left: 20px;
 }
+
 .filesandfolderstext {
     margin: 0 20px;
 }
