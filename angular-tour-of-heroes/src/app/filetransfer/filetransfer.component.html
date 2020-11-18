@@ -16,18 +16,20 @@
         <label class="services">Filters: </label>
         <label>{{filterList(filters, service1)}}</label>
         <div class="boxes">
-          <ul class="filesandfolders">
-            <li *ngFor="let fol of folders">
-              <img src="assets/images/folder.png" width="70" height="70">
-              <span class="filesandfolderstext">{{fol}}</span>
-            </li>
-          </ul>
-          <ul class="filesandfolders" style="margin-left: 20px;">
-            <li *ngFor="let fil of files1">
-              <img src="assets/images/file.png" width="60" height="60">
-              <span class="filesandfolderstext">{{fil}}</span>
-            </li>
-          </ul>
+          <div
+            cdkDropList
+            #file1List="cdkDropList"
+            [cdkDropListData]="files1"
+            [cdkDropListConnectedTo]="[file2List]"
+            class="example-list"
+            (cdkDropListDropped)="drop($event)">
+            <img class="folder" src="assets/images/folder.png" width="70" height="70">
+            <label class="folder-text">Folder</label>
+            <div class="example-box" *ngFor="let fil of files1" cdkDrag>
+              <img class="file" src="assets/images/file.png" width="60" height="60">
+              <label class="file-text">{{fil}}</label>
+            </div>
+          </div>
         </div>
     </div>
     <div style="margin-left: 620px;">
@@ -47,18 +49,20 @@
       <label class="services">Filters: </label>
       <label>{{filterList(filters, service2)}}</label>
       <div class="boxes">
-        <ul class="filesandfolders">
-          <li *ngFor="let fol of folders">
-            <img src="assets/images/folder.png" width="70" height="70">
-            <span class="filesandfolderstext">{{fol}}</span>
-          </li>
-        </ul>
-        <ul class="filesandfolders" style="margin-left: 20px;">
-          <li *ngFor="let fil of files2">
-            <img src="assets/images/file.png" width="60" height="60">
-            <span class="filesandfolderstext">{{fil}}</span>
-          </li>
-        </ul>
+        <div
+          cdkDropList
+          #file2List="cdkDropList"
+          [cdkDropListData]="files2"
+          [cdkDropListConnectedTo]="[file1List]"
+          class="example-list"
+          (cdkDropListDropped)="drop($event)">
+          <img class="folder" src="assets/images/folder.png" width="70" height="70">
+            <label class="folder-text">Folder</label>
+            <div class="example-box" *ngFor="let fil of files2" cdkDrag>
+              <img class="file" src="assets/images/file.png" width="60" height="60">
+              <label class="file-text">{{fil}}</label>
+            </div>
+          </div>
       </div>
     </div>
 </div>

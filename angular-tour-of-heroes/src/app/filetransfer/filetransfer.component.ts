@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FilterService } from '../filter.service';
+import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-filetransfer',
@@ -75,5 +76,26 @@ export class FiletransferComponent implements OnInit {
 
   getFilters(): void {
     this.filters = this.filterService.getFilters();
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+                        event.container.data,
+                        event.previousIndex,
+                        event.currentIndex);
+      }
+    }
+
+  /** Predicate function that only allows filtered types to be dropped into a list */
+  filterPredicate(item: CdkDrag<String>) {
+    return item.data === "";
+  }
+
+  /** Predicate function that doesn't allow items to be dropped into a list. */
+  noReturnPredicate() {
+    return false;
   }
 }
