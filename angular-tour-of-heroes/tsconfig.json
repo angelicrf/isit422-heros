@@ -9,6 +9,13 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
+    "types": [
+      "jasmine",
+      "node",
+      "gapi",
+      "gapi.auth2",
+      "gapi.client.drive"
+    ],
     "target": "es2015",
     "module": "es2020",
     "lib": [
