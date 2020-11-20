@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FilterService } from '../filter.service';
-let filterServiceGlobal: FilterService
-let holdClientEmail = []
-let getEmailValue = false
+import { GdCloudService } from '../gd-cloud.service';
+import { GDClientCredentials } from '../gdClientCredentials';
+
 @Component({
   selector: 'app-cloudmanagement',
   templateUrl: './cloudmanagement.component.html',
@@ -10,7 +10,7 @@ let getEmailValue = false
 })
 export class CloudmanagementComponent {
   
-  constructor(public filterService: FilterService) {}
+  constructor(public filterService: FilterService, private gdService: GdCloudService, private gdcl:GDClientCredentials) {}
   
   title = 'CloudManagementComponent';
   checked = false;
@@ -74,50 +74,35 @@ export class CloudmanagementComponent {
   linkAccount(): void {
     // This should link the account if the passed in username and password are accurate
   }
-  async googleDriveInit(){
-    //this.googleDriveForm = true
-    let holdPromise = await this.googleImplementCallBack()
-    console.log("HoldPromises " + holdPromise)
-    let holdUserData = await this.getClientEmail()
-    console.log("holdUserData " + holdUserData)
-  }
   clientEmailValue(v: string) {
     this.gdEmail = v;
     console.log('the value from set2 ' + this.gdEmail)
   }
-  async googleImplementCallBack(){
-    return await new Promise((resolve,reject) => {
-     gapi.load('client:auth2', () => {
-      gapi.client
-      .init({
-        apiKey: 'AIzaSyCoO79P9OtAYVmr6PUSNqRF69PmAMwyuiA',
-        discoveryDocs: [
-          'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest',
-        ],
-        clientId:
-          '160810936655-90na0qia4bkvqrsljk6acttn60tru758.apps.googleusercontent.com',
-        scope:
-          'profile email https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.appdata',
-      })
-      .then(function() {
-        console.log("client initialized...")
-        let showClient = gapi.auth2.getAuthInstance();
-        showClient.signIn({prompt: 'consent' })
-        .then((googleUser: gapi.auth2.GoogleUser) => {
-          let clientaccessToken = googleUser.getAuthResponse().access_token
-          let clientEmail = googleUser.getBasicProfile().getEmail();
-          let InstantiateClient = showClient.isSignedIn.get();
-          getEmailValue = true
-          holdClientEmail.push(clientEmail,clientaccessToken)
-          return resolve(holdClientEmail)
-         })
-       })
-     })
-   }) 
-  }
   async getClientEmail(){
-   return await this.clientEmailValue(holdClientEmail[0])
-  }
+    return await this.clientEmailValue(this.gdcl.holdDataClient[0])
+   }
+  async googleDriveInit(){
+    //this.googleDriveForm = true
+    let holdPromise = await this.gdService.googleImplementCallBack()
+    console.log("HoldPromises " + holdPromise)
+    let holdUserData = await this.getClientEmail()
+    console.log("holdUserData " + holdUserData)
+    this.getFiles() 
+    }
+  getFiles() {
+      gapi.client
+        .request({
+          method: 'GET',
+          path:
+            'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest',
+        })
+        .then(() => {
+            this.gdService.listGoogleDriveFiles()
+            let clFile = this.gdcl.holdFilesClient
+            console.log("All files " + clFile)
+        })
+      }
+ 
 }
 
 
