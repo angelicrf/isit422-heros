@@ -36,7 +36,7 @@
       </div><br>
       
       <input *ngIf="!googleDriveForm" type="checkbox" class="services"  aria-checked="false"><img src="assets/images/googledrive.png" width="64" height="64">
-      <button *ngIf="!googleDriveForm"  class="services-button" (click)="googleDriveInit()">Google Drive<br>{{gdEmail}}</button>
+      <button *ngIf="!googleDriveForm"  class="services-button" (click)="googleDriveInit()">Google Drive<br><span >{{gdEmail}}</span></button>
       <!--<label *ngIf="googleDriveForm" class="services">{{gdEmail}}</label>
       <div *ngIf="googleDriveForm">
          <input class="service-input" autocomplete="off" aria-invalid="false" placeholder="username" [(ngModel)]="gdAccount.username">

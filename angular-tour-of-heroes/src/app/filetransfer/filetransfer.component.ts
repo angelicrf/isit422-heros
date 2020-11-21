@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FilterService } from '../filter.service';
 import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag} from '@angular/cdk/drag-drop';
+import { GdCloudService } from '../gd-cloud.service';
+import { GDClientCredentials } from '../gdClientCredentials';
+import { convertCompilerOptionsFromJson } from 'typescript';
+let clFile: string[];
 
 @Component({
   selector: 'app-filetransfer',
@@ -11,7 +15,7 @@ export class FiletransferComponent implements OnInit {
 
   leftServiceForm = false;
   rightServiceForm = false;
-
+  
   serviceIcons = [
     "assets/images/dropbox.png",
     "assets/images/googledrive.png",
@@ -28,7 +32,7 @@ export class FiletransferComponent implements OnInit {
 
   serviceAccounts = [
     "jdoe@hotmail.com",
-    "janedoe@gmail.com",
+    localStorage.getItem('gdUserEmail'),
     "(No account associated)",
     "(No account associated)"
   ]
@@ -40,18 +44,15 @@ export class FiletransferComponent implements OnInit {
     'Folder 01'
   ]
 
-  files1: String[] = [
-    'Document 01',
-    'Document 02'
-  ]
+  files1:String[] = [];
   
-  files2: String[] = [
+  files2: String[]= [
     'Document 01'
-  ]
+  ];
 
   filters: String[];
 
-  constructor(public filterService: FilterService) {}
+  constructor(public filterService: FilterService,private gdService: GdCloudService, private gdcl:GDClientCredentials) {}
 
   ngOnInit(): void {
     this.getFilters();
@@ -98,4 +99,29 @@ export class FiletransferComponent implements OnInit {
   noReturnPredicate() {
     return false;
   }
+  async getFiles() {
+    this.leftServiceForm = false
+    return await new Promise((resolve,reject) => {
+      return gapi.client
+      .request({
+        method: 'GET',
+        path:
+          'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest',
+      })
+      .then(async () => {
+        let displayItems:any = await this.gdService.listGoogleDriveFiles();   
+          return resolve(displayItems);
+      })
+    }) 
+  }
+  async displayClientFiles(){
+       let holdClientFilesToDisplay = await this.getFiles()
+       console.log("displayClientFiles " + holdClientFilesToDisplay);
+       let keys = Object.keys(holdClientFilesToDisplay);
+       for(let i = 0; i < keys.length; i++){
+        this.files1.push((holdClientFilesToDisplay[i]));
+      };
+       return this.files1
+  }
+ 
 }

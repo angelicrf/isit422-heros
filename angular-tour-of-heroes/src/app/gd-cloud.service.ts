@@ -49,22 +49,25 @@ export class GdCloudService {
      })
    }) 
   }
-  listGoogleDriveFiles() {
+  async listGoogleDriveFiles() {
     console.log('listGoogleDriveFiles called')
-     return gapi.client.drive.files
+     return await new Promise((resolve,reject) => {
+      return gapi.client.drive.files
       .list({
         fields:
           'nextPageToken, files(id, name, mimeType, modifiedTime, size, webContentLink)',
         q: "'root' in parents and trashed = false",
       })
       .then((res) => { 
+        let allClientFiles:string[] = []
               res.result.files.forEach(fl => {
-                console.log('fl from gd-cloud Services ' + JSON.stringify(fl))
-                holdClientFiles.push(fl.id);      
+                //console.log('fl from gd-cloud Services ' + JSON.stringify(fl))
+                allClientFiles.push(fl.name);      
               })
-              console.log('files from gd-cloud Services ' + JSON.stringify(holdClientFiles))
-            return holdClientFiles;
+              console.log('files from gd-cloud Services ' + allClientFiles)
+            return resolve(allClientFiles);
           })
-            .catch((err) => console.log('err from listGoogleDriveFiles ' + err))
+        .catch((err) => console.log('err from listGoogleDriveFiles ' + err))
+     }) 
   }
 }

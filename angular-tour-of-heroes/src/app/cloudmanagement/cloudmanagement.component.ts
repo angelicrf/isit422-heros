@@ -21,7 +21,7 @@ export class CloudmanagementComponent {
   googleDriveForm = false;
   oneDriveForm = false;
   boxForm = false;
-  gdEmail:string;
+  gdEmail:string = this.readLocalStorageValue('gdUserEmail')
   
   dbAccount = {
     "username": "",
@@ -74,9 +74,20 @@ export class CloudmanagementComponent {
   linkAccount(): void {
     // This should link the account if the passed in username and password are accurate
   }
+  readLocalStorageValue(key) {
+    return localStorage.getItem(key)
+  }
   clientEmailValue(v: string) {
-    this.gdEmail = v;
+    if(localStorage.getItem('gdUserEmail') == null){
+      this.gdEmail = v;
+    localStorage.setItem('gdUserEmail', this.gdEmail);
     console.log('the value from set2 ' + this.gdEmail)
+    }else if(localStorage.getItem('gdUserEmail') !== v){
+      localStorage.removeItem('gdUserEmail')
+      this.gdEmail = v;
+      localStorage.setItem('gdUserEmail', this.gdEmail);
+    console.log('the value from set2 ' + this.gdEmail)
+    }else this.gdEmail = localStorage.getItem('gdUserEmail')
   }
   async getClientEmail(){
     return await this.clientEmailValue(this.gdcl.holdDataClient[0])
@@ -87,21 +98,8 @@ export class CloudmanagementComponent {
     console.log("HoldPromises " + holdPromise)
     let holdUserData = await this.getClientEmail()
     console.log("holdUserData " + holdUserData)
-    this.getFiles() 
     }
-  getFiles() {
-      gapi.client
-        .request({
-          method: 'GET',
-          path:
-            'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest',
-        })
-        .then(() => {
-            this.gdService.listGoogleDriveFiles()
-            let clFile = this.gdcl.holdFilesClient
-            console.log("All files " + clFile)
-        })
-      }
+ 
  
 }
 
