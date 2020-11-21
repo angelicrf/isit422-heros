@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserLoginService } from '../user-login.service';
-
+let clientIdValue = []
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
@@ -21,6 +21,7 @@ export class SignInComponent implements OnInit {
     return localStorage.getItem(key)
   }
   customerLogOut(){
+    this.usrLogin.logOutMnCustomer() 
     localStorage.removeItem('userSignedIn')
   }
   sendUserInfo(){
@@ -57,6 +58,7 @@ export class SignInComponent implements OnInit {
          for (var i = 0; i < keys.length; i++) {
           userNamevalue.push(res[i].clientUserName)
           passwordvalue.push(res[i].clientPassword)
+          clientIdValue.push(res[i].clientId)
        } 
        if(userNamevalue.includes(this.username) && passwordvalue.includes(this.password)){ 
         userNameFound = true
@@ -81,6 +83,7 @@ export class SignInComponent implements OnInit {
           localStorage.removeItem('userSignedUp')
          }
          localStorage.setItem('userSignedIn', 'SignedUser')
+         localStorage.setItem('userMnId', clientIdValue[0])
          window.location.replace("http://localhost:4200/home")
          alert('user name and password found user is signed in')
             return this.usrLogin.isSingedIn = true
@@ -100,5 +103,6 @@ export class SignInComponent implements OnInit {
   }
    
 }
+ 
 
 

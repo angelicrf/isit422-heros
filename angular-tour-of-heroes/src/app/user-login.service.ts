@@ -47,6 +47,7 @@ export class UserLoginService {
           let newUserMongoData = {}
           newUserMongoData['clientUserName'] = getdata.username
           newUserMongoData['clientPassword'] = getdata.password
+          newUserMongoData['clientId'] = getdata._id
           findAllMongoData.push(newUserMongoData) 
         ///})
         console.log("elementEmail from Service " + JSON.stringify(findAllMongoData))
@@ -55,4 +56,15 @@ export class UserLoginService {
       .catch((err) => console.log("Error getdata from Service " + err))
   })
 }
+logOutMnCustomer() {
+  fetch('/api/LogOutMCUser', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    },
+  })
+    .then((response) => {return console.log(response)})
+    .catch((err) => console.log(err));
+}  
 }

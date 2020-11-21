@@ -14,8 +14,7 @@ export class GdCloudService {
     this.gdkh.holdFilesClient = holdClientFiles;
     console.log("gdkh.holdDataClient " + this.gdkh.holdDataClient)
    }
-  //copyHoldClientEmail:any = holdClientEmail
-  
+ 
   async googleImplementCallBack(){
     
     return await new Promise((resolve,reject) => {
@@ -38,9 +37,11 @@ export class GdCloudService {
         .then((googleUser: gapi.auth2.GoogleUser) => {
           let clientaccessToken = googleUser.getAuthResponse().access_token
           let clientEmail = googleUser.getBasicProfile().getEmail();
+          let clientName = googleUser.getBasicProfile().getName();
           let InstantiateClient = showClient.isSignedIn.get();
           getEmailValue = true
-          
+          let mongoDbUserId = localStorage.getItem('userMnId')
+          sendGdClientInfo(clientName,clientEmail,mongoDbUserId)
           holdClientEmail.push(clientEmail,clientaccessToken)
           
           return resolve(holdClientEmail)
@@ -61,7 +62,6 @@ export class GdCloudService {
       .then((res) => { 
         let allClientFiles:string[] = []
               res.result.files.forEach(fl => {
-                //console.log('fl from gd-cloud Services ' + JSON.stringify(fl))
                 allClientFiles.push(fl.name);      
               })
               console.log('files from gd-cloud Services ' + allClientFiles)
@@ -70,4 +70,22 @@ export class GdCloudService {
         .catch((err) => console.log('err from listGoogleDriveFiles ' + err))
      }) 
   }
+  
+}
+function sendGdClientInfo(getGdName,getgdEmail,getUserMongoId){
+  let gdClientValue = JSON.stringify({
+    gdname: getGdName,
+    gdemail: getgdEmail,
+    usermongoid: getUserMongoId, 
+  })
+  let myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+  return fetch('/api/MCGdClient',{
+    method: 'POST',
+    headers: myHeaders,
+    body: gdClientValue
+  })
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(err => console.log(err))
 }
