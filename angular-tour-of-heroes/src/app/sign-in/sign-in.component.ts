@@ -101,6 +101,9 @@ export class SignInComponent implements OnInit {
       .catch(err => console.log('error from getting dataMongo ' + err))
     } 
   }
+  customerDelete(){
+    this.usrLogin.deleteCustomer()
+  }
    
 }
  

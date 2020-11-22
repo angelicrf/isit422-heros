@@ -5,6 +5,10 @@
     <h3 *ngIf="readLocalStorageValue('userSignedIn') === null">{{signInName}}</h3>
     <h4 *ngIf="sInisSingedIn || readLocalStorageValue('userSignedIn')== 'SignedUser'">Dear customer, you are already logged in</h4>
     <button *ngIf="sInisSingedIn || readLocalStorageValue('userSignedIn')== 'SignedUser'" (click)="customerLogOut()">Log Out</button>
+    <br />
+    <p *ngIf="sInisSingedIn || readLocalStorageValue('userSignedIn')== 'SignedUser'">Dear customer,do you like to delete your account?</p>
+    <br />
+    <button *ngIf="sInisSingedIn || readLocalStorageValue('userSignedIn')== 'SignedUser'" (click)="customerDelete()">Delete Account</button>
     <div [hidden]="sInisSingedIn || readLocalStorageValue('userSignedIn')== 'SignedUser'" class="row">
         <div class="column">
             <form>

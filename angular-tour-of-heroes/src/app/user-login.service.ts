@@ -66,5 +66,18 @@ logOutMnCustomer() {
   })
     .then((response) => {return console.log(response)})
     .catch((err) => console.log(err));
-}  
+}
+deleteCustomer(){
+  localStorage.clear();
+  fetch('/api/DeleteMCUser', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    },
+  })
+    .then((response) => {return console.log(response)})
+    .catch((err) => console.log(err));
+}
+  
 }
