@@ -5,7 +5,7 @@ const DOCS = {
 	d: 'odt',
 	e: 'pdf',
 	f: 'xls',
-	g: 'xlsx'
+	g: 'xlsx',
 	h: 'pdf',
 	i: 'pptx'
 }
@@ -25,7 +25,7 @@ const AUDIO = {
 	a: 'au',
 	b: 'midi',
 	c: 'mp3',
-	d: 'm4a'
+	d: 'm4a',
 	e: 'ogg',
 	f: 'ra',
 	g: 'ram',

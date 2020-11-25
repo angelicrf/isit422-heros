@@ -20,21 +20,24 @@ export class FiletransferComponent implements OnInit {
     "assets/images/dropbox.png",
     "assets/images/googledrive.png",
     "assets/images/onedrive.png",
-    "assets/images/box.png"
+    "assets/images/box.png",
+    "assets/images/folder.png"
   ];
 
   serviceNames = [
     "Dropbox",
     "Google Drive",
     "OneDrive",
-    "Box"
+    "Box",
+    "Local Files"
   ]
 
   serviceAccounts = [
     "jdoe@hotmail.com",
     localStorage.getItem('gdUserEmail'),
     "(No account associated)",
-    "(No account associated)"
+    "(No account associated)",
+    localStorage.getItem('localFilePath')
   ]
 
   service1 = 0;
@@ -44,7 +47,7 @@ export class FiletransferComponent implements OnInit {
     'Folder 01'
   ]
 
-  files1:String[] = [];
+  files1: String[] = [];
   
   files2: String[]= [
     'Document 01'
@@ -56,6 +59,29 @@ export class FiletransferComponent implements OnInit {
 
   ngOnInit(): void {
     this.getFilters();
+  }
+
+  async getLocalFiles() {
+    this.leftServiceForm = false
+    let filePath = this.serviceAccounts[4];
+    const files = await fetch('/api/Files', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+      body: JSON.stringify({
+        path: filePath
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      data.forEach((file) => {
+        this.files1.push(file);
+      });
+      console.log(data)
+    })
+    .catch(err => console.log(err))
   }
 
   filterList(fil: String[], srv: number): string {

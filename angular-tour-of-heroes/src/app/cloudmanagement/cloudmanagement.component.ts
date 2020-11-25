@@ -21,6 +21,7 @@ export class CloudmanagementComponent {
   googleDriveForm = false;
   oneDriveForm = false;
   boxForm = false;
+  localForm = false;
   gdEmail:string = this.readLocalStorageValue('gdUserEmail')
   
   dbAccount = {
@@ -52,11 +53,14 @@ export class CloudmanagementComponent {
     'Dropbox',
     'Google Drive',
     'OneDrive',
-    'Box'
+    'Box',
+    'Local File System'
   ]
   service: String;
 
   filters: String[];
+
+  localFilePath: string;
 
   ngOnInit(): void {
     this.getFilters();
@@ -74,9 +78,15 @@ export class CloudmanagementComponent {
   linkAccount(): void {
     // This should link the account if the passed in username and password are accurate
   }
+
+  setLocalStorageFilePath() {
+    localStorage.setItem('localFilePath', this.localFilePath);
+  }
+
   readLocalStorageValue(key) {
     return localStorage.getItem(key)
   }
+
   clientEmailValue(v: string) {
     if(localStorage.getItem('gdUserEmail') == null){
       this.gdEmail = v;
