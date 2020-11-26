@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Dropbox } from 'dropbox';
-import unfetch from 'unfetch';
 
 @Injectable({
   providedIn: 'root'
@@ -47,19 +46,44 @@ export class DpCloudService {
         .catch((error) => console.log('error', error));
     });
   }
-  dpGetClientInfo(dpAccessToken:string){
+  async dpGetClientInfo(dpAccessToken:string){
+    return await new Promise((resolve,reject) => {
+      let dbx = new Dropbox({
+        accessToken: dpAccessToken
+      });
+      console.log(JSON.stringify(dbx));
+      dbx
+        .usersGetCurrentAccount()
+        .then(response => {
+           console.log(JSON.stringify("First then" + response.result.email))
+           localStorage.setItem('dpEmail',response.result.email)
+           return resolve(response.result.email)
+          })
+        .catch((err) => console.log(err))  
+    }) 
+  }
+  async dpGetFilesList(dpAccessToken:string){
     //encoder.htmlEncode(response.name.display_name)
-     let dbx = new Dropbox({
-      accessToken: dpAccessToken
-    });
-    console.log(JSON.stringify(dbx));
-    dbx
-      .usersGetCurrentAccount()
-      .then(response => {
-         console.log(JSON.stringify("First then" + response.result.email))
-         localStorage.setItem('dpEmail',response.result.email)
-         return response
-        })
-      .catch((err) => console.log(err))  
+    return await new Promise((resolve,reject) => {
+      let holdelement = [];
+      let dbx = new Dropbox({
+       accessToken: dpAccessToken
+     });
+     console.log(JSON.stringify(dbx));
+     dbx
+     .filesListFolder({
+       path: '',
+     })
+       .then(response => {
+         let hpldDpFiles = response.result.entries
+         for (let index = 0; index < hpldDpFiles.length; index++) {
+            holdelement.push(hpldDpFiles[index].name);
+         } 
+         console.log(JSON.stringify("Elements are " + holdelement))
+         return resolve(holdelement) 
+         })
+       .catch((err) => console.log(err)) 
+       //console.log(JSON.stringify("Elements are " + holdelement))
+    })
   }
 }

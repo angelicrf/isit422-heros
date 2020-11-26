@@ -71,7 +71,7 @@ function buildFileListByFilter(filterName, masterFileList ) {
 			else if (filtername === 'DOCS'){
 				
 				for (const prop in DOCS){
-					if(fileExtUpperCase === ${DOCS[prop]}){
+					if(fileExtUpperCase === `${DOCS[prop]}`){
 						filteredFileList.push(fileName);
 					}
 				}	
@@ -80,7 +80,7 @@ function buildFileListByFilter(filterName, masterFileList ) {
 			else if (filtername === 'IMAGES'){
 				
 				for (const prop in IMAGES){
-					if(fileExtUpperCase === ${IMAGES[prop]}){
+					if(fileExtUpperCase === `${IMAGES[prop]}`){
 						filteredFileList.push(fileName);
 					}
 				}	
@@ -90,7 +90,7 @@ function buildFileListByFilter(filterName, masterFileList ) {
 			else if (filtername === 'AUDIO'){
 				
 				for (const prop in AUDIO){
-					if(fileExtUpperCase === ${AUDIO[prop]}){
+					if(fileExtUpperCase === `${AUDIO[prop]}`){
 						filteredFileList.push(fileName);
 					}
 				}	
@@ -100,7 +100,7 @@ function buildFileListByFilter(filterName, masterFileList ) {
 			else if (filtername === 'VIDEO'){
 				
 				for (const prop in VIDEO){
-					if(fileExtUpperCase === ${VIDEO[prop]}){
+					if(fileExtUpperCase === `${VIDEO[prop]}`){
 						filteredFileList.push(fileName);
 					}
 				}	

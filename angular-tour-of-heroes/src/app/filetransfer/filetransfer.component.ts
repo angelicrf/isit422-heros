@@ -48,7 +48,7 @@ export class FiletransferComponent implements OnInit {
     'Folder 01'
   ]
 
-  files1: String[] = [];
+  files1: string[] = [];
   
   files2: String[]= [
     'Document 01'
@@ -63,12 +63,9 @@ export class FiletransferComponent implements OnInit {
       showData = this.dpService.getCodefromUri();
     }
 
-  async ngOnInit(){
-    this.getFilters();
-    console.log("showData from onInit " + showData)
-     let displayResult:any = await this.dpService.sendMessageToNode(showData)
-     console.log("displayResult from onInit " + displayResult)
-     this.dpService.dpGetClientInfo(displayResult) 
+  ngOnInit(){
+     this.getFilters();
+     this.serviceAccounts[0] = localStorage.getItem('dpEmail')
   }
 
   async getLocalFiles() {
@@ -159,5 +156,15 @@ export class FiletransferComponent implements OnInit {
       };
        return this.files1
   }
- 
+ async dpProcessFiles(){
+  let displayResult:any = await this.dpService.sendMessageToNode(showData)
+     
+  let dpClientEmail:any = await this.dpService.dpGetClientInfo(displayResult)
+  console.log("dpClientRegisteredEmail " + dpClientEmail )
+  let retreiveDpFiles:any = await this.dpService.dpGetFilesList(displayResult)
+  let keys = Object.keys(retreiveDpFiles);
+   for(let i = 0; i < keys.length; i++){
+     this.files1.push((retreiveDpFiles[i]));
+   };
+ }
 }
