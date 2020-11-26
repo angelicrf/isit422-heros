@@ -3,8 +3,9 @@ import { FilterService } from '../filter.service';
 import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag} from '@angular/cdk/drag-drop';
 import { GdCloudService } from '../gd-cloud.service';
 import { GDClientCredentials } from '../gdClientCredentials';
-import { convertCompilerOptionsFromJson } from 'typescript';
+import { DpCloudService } from '../dp-cloud.service';
 let clFile: string[];
+let showData: string;
 
 @Component({
   selector: 'app-filetransfer',
@@ -33,7 +34,7 @@ export class FiletransferComponent implements OnInit {
   ]
 
   serviceAccounts = [
-    "jdoe@hotmail.com",
+    localStorage.getItem('dpEmail'),
     localStorage.getItem('gdUserEmail'),
     "(No account associated)",
     "(No account associated)",
@@ -54,11 +55,20 @@ export class FiletransferComponent implements OnInit {
   ];
 
   filters: String[];
+  acces_Token: any;
 
-  constructor(public filterService: FilterService,private gdService: GdCloudService, private gdcl:GDClientCredentials) {}
+  constructor(public filterService: FilterService,
+    private gdService: GdCloudService, 
+    private dpService: DpCloudService) {
+      showData = this.dpService.getCodefromUri();
+    }
 
-  ngOnInit(): void {
+  async ngOnInit(){
     this.getFilters();
+    console.log("showData from onInit " + showData)
+     let displayResult:any = await this.dpService.sendMessageToNode(showData)
+     console.log("displayResult from onInit " + displayResult)
+     this.dpService.dpGetClientInfo(displayResult) 
   }
 
   async getLocalFiles() {

@@ -26,15 +26,15 @@
     </div>
     <div style="margin-left: 620px;">
       <input *ngIf="!dropboxForm" type="checkbox" class="services" aria-checked="false"><img src="assets/images/dropbox.png" width="64" height="64">
-      <button *ngIf="!dropboxForm" class="services-button" (click)="dropboxForm = true">Dropbox<br>jdoe@hotmail.com</button>
-      <label *ngIf="dropboxForm" class="services">Associate a new Dropbox account:</label>
+      <button *ngIf="!dropboxForm" class="services-button" (click)="dropBoxClientLogin()">Dropbox<br><span>{{dpEmail}}</span></button>
+     <!--  <label *ngIf="dropboxForm" class="services">Associate a new Dropbox account:</label>
       <div *ngIf="dropboxForm">
         <input class="service-input" autocomplete="off" aria-invalid="false" placeholder="username" [(ngModel)]="dbAccount.username">
         <input class="service-input" autocomplete="off" aria-invalid="false" placeholder="password" [(ngModel)]="dbAccount.password">
         <button class="service-input" (click)="dropboxForm = false">Submit</button>
-        <button class="service-input" (click)="dropboxForm = false">Cancel</button>
-      </div><br>
-      
+        <button class="service-input" (click)="dropboxForm = false">Cancel</button> </div>
+      -->
+      <br>
       <input *ngIf="!googleDriveForm" type="checkbox" class="services"  aria-checked="false"><img src="assets/images/googledrive.png" width="64" height="64">
       <button *ngIf="!googleDriveForm"  class="services-button" (click)="googleDriveInit()">Google Drive<br><span >{{gdEmail}}</span></button>
       <!--<label *ngIf="googleDriveForm" class="services">{{gdEmail}}</label>
@@ -75,8 +75,3 @@
     </div>
   </div>
 </div>
-  
-  <!-- <mat-checkbox class="example-margin" name="fieldName" ngDefaultControl [(ngModel)]="checked">Checked</mat-checkbox> -->
-  
-  
-  <!-- <input class="text-input-input"  autocomplete="off" aria-invalid="false" value=""> -->

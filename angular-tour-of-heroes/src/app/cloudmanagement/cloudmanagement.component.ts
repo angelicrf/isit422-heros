@@ -23,7 +23,8 @@ export class CloudmanagementComponent {
   boxForm = false;
   localForm = false;
   gdEmail:string = this.readLocalStorageValue('gdUserEmail')
-  
+  dpEmail:string = this.readLocalStorageValue('dpEmail')
+
   dbAccount = {
     "username": "",
     "password": ""
@@ -109,7 +110,13 @@ export class CloudmanagementComponent {
     let holdUserData = await this.getClientEmail()
     console.log("holdUserData " + holdUserData)
     }
- 
+  dropBoxClientLogin(){
+    //this.dropboxForm = false
+    const dpUrl = "https://www.dropbox.com/oauth2/authorize?client_id=4kbv0so8hjs83lf&response_type=code&scope=account_info.read files.metadata.read files.content.write files.content.read&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Ffiletransfer"
+    let link = document.createElement('a')
+    link.href = dpUrl
+    link.click()
+  }
  
 }
 

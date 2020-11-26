@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GDClientCredentials} from './gdClientCredentials';
+
 let holdClientEmail = []
 let holdClientFiles = []
 let getEmailValue = false
@@ -70,6 +71,7 @@ export class GdCloudService {
         .catch((err) => console.log('err from listGoogleDriveFiles ' + err))
      }) 
   }
+ 
   
 }
 function sendGdClientInfo(getGdName,getgdEmail,getUserMongoId){
