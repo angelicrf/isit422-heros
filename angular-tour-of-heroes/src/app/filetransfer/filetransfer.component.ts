@@ -158,9 +158,8 @@ export class FiletransferComponent implements OnInit {
   }
  async dpProcessFiles(){
   let displayResult:any = await this.dpService.sendMessageToNode(showData)
-     
-  let dpClientEmail:any = await this.dpService.dpGetClientInfo(displayResult)
-  console.log("dpClientRegisteredEmail " + dpClientEmail )
+  this.dpService.dpGetClientInfo(displayResult)
+ 
   let retreiveDpFiles:any = await this.dpService.dpGetFilesList(displayResult)
   let keys = Object.keys(retreiveDpFiles);
    for(let i = 0; i < keys.length; i++){

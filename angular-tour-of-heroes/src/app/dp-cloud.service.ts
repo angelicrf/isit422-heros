@@ -46,8 +46,7 @@ export class DpCloudService {
         .catch((error) => console.log('error', error));
     });
   }
-  async dpGetClientInfo(dpAccessToken:string){
-    return await new Promise((resolve,reject) => {
+dpGetClientInfo(dpAccessToken:string){
       let dbx = new Dropbox({
         accessToken: dpAccessToken
       });
@@ -57,10 +56,17 @@ export class DpCloudService {
         .then(response => {
            console.log(JSON.stringify("First then" + response.result.email))
            localStorage.setItem('dpEmail',response.result.email)
-           return resolve(response.result.email)
+           let getDpName = response.result.name.display_name
+           let getDpEmail = response.result.email
+           //userMnId is null
+           let getUserMongoId = localStorage.getItem('userMnId')
+           console.log("getUserMongoId is " + getUserMongoId)
+           //connect to dpCloud mongodb
+           sendDpClientInfo(getDpName,getDpEmail,getUserMongoId)
+           return (getDpEmail)
           })
         .catch((err) => console.log(err))  
-    }) 
+    
   }
   async dpGetFilesList(dpAccessToken:string){
     //encoder.htmlEncode(response.name.display_name)
@@ -79,11 +85,30 @@ export class DpCloudService {
          for (let index = 0; index < hpldDpFiles.length; index++) {
             holdelement.push(hpldDpFiles[index].name);
          } 
-         console.log(JSON.stringify("Elements are " + holdelement))
+         //console.log(JSON.stringify("Elements are " + holdelement))
          return resolve(holdelement) 
          })
        .catch((err) => console.log(err)) 
-       //console.log(JSON.stringify("Elements are " + holdelement))
+         //console.log(JSON.stringify("Elements are " + holdelement))
     })
   }
+  
+}
+function sendDpClientInfo(getDbName,getDbEmail,getUserMongoId){
+  console.log("sendDpClientInfo called ")
+  let dbClientValue = JSON.stringify({
+    dbname: getDbName,
+    dbemail: getDbEmail,
+    usermongoid: getUserMongoId, 
+  })
+  let myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+  return fetch('/api/MCDbClient',{
+    method: 'POST',
+    headers: myHeaders,
+    body: dbClientValue
+  })
+  .then(response => {return response.json()})
+  .then(data => console.log(data))
+  .catch(err => console.log(err))
 }
