@@ -61,9 +61,12 @@ export class GdCloudService {
         q: "'root' in parents and trashed = false",
       })
       .then((res) => { 
-        let allClientFiles:string[] = []
+        let allClientFiles:any = []
               res.result.files.forEach(fl => {
-                allClientFiles.push(fl.name);      
+                if(fl.mimeType == "application/octet-stream"){
+                  allClientFiles.push((fl.name + '.bin'));
+                }else
+                allClientFiles.push((fl.name + '.' + fl.fileExtension));      
               })
               console.log('files from gd-cloud Services ' + allClientFiles)
             return resolve(allClientFiles);

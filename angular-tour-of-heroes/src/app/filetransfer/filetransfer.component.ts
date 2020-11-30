@@ -83,9 +83,11 @@ export class FiletransferComponent implements OnInit {
     })
     .then(response => response.json())
     .then(data => {
-      data.forEach((file) => {
+      console.log('data is ' + data)  
+      this.files1.push(data);
+     /*  data.forEach((file) => {
         this.files1.push(file);
-      });
+      }); */
       console.log(data)
     })
     .catch(err => console.log(err))
@@ -143,7 +145,8 @@ export class FiletransferComponent implements OnInit {
       })
       .then(async () => {
         let displayItems:any = await this.gdService.listGoogleDriveFiles();   
-          return resolve(displayItems);
+          
+        return resolve(displayItems);
       })
     }) 
   }
@@ -152,7 +155,7 @@ export class FiletransferComponent implements OnInit {
        console.log("displayClientFiles " + holdClientFilesToDisplay);
        let keys = Object.keys(holdClientFilesToDisplay);
        for(let i = 0; i < keys.length; i++){
-        this.files1.push((holdClientFilesToDisplay[i]));
+            this.files1.push((holdClientFilesToDisplay[i]));
       };
        return this.files1
   }
@@ -165,5 +168,6 @@ export class FiletransferComponent implements OnInit {
    for(let i = 0; i < keys.length; i++){
      this.files1.push((retreiveDpFiles[i]));
    };
+   window.history.replaceState(null, null, window.location.pathname);
  }
 }

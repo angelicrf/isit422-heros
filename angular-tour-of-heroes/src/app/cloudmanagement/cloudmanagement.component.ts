@@ -81,6 +81,18 @@ export class CloudmanagementComponent {
   }
 
   setLocalStorageFilePath() {
+    this.localForm = false; 
+   /*  let target = ev.target as HTMLInputElement
+    let crFile: File = (target.files as FileList)[0];
+    this.localFilePath = "Desktop/dog_3.png"; */
+    //target.value
+    //console.log("targetvalue is " + target.value.substring(12))
+   /*  var fReader = new FileReader();
+    fReader.readAsDataURL(crFile);
+    fReader.onloadend = function(event){
+      //console.log('this currentEv ' + event.target.result)
+      hdth = event.target.result;
+    } */
     localStorage.setItem('localFilePath', this.localFilePath);
   }
 
