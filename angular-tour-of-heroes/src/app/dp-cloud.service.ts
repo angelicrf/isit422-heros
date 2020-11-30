@@ -75,6 +75,7 @@ dpGetClientInfo(dpAccessToken:string){
       let dbx = new Dropbox({
        accessToken: dpAccessToken
      });
+     //"recursive\": false,\"include_media_info\": false,\"include_deleted\": false,\"include_has_explicit_shared_members\": false,\"include_mounted_folders\": true,\"include_non_downloadable_files\": true
      console.log(JSON.stringify(dbx));
      dbx
      .filesListFolder({

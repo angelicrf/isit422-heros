@@ -27,10 +27,18 @@
             (cdkDropListDropped)="drop($event)">
             <img class="folder" src="assets/images/folder.png" width="70" height="70">
             <label class="folder-text">Folder</label>
-            <div class="example-box" *ngFor="let fil of files1" cdkDrag>
-              <img class="file" src="assets/images/file.png" width="60" height="60">
-              <label class="file-text">{{fil}}</label>
+            <div *ngIf="files1.length > 0">
+                <div class="example-box" *ngFor="let fil of files1" cdkDrag>
+                  <img class="file" src="assets/images/file.png" width="60" height="60">
+                  <label class="file-text">{{fil}}</label>
+                </div>
             </div>
+              <div *ngIf="folders.length > 0">
+                <div class="example-box" *ngFor="let fol of folders" cdkDrag>
+                  <img class="file" src="assets/images/folder.png" width="60" height="60">
+                  <label class="file-text">{{fol}}</label>
+                </div>
+              </div>
           </div>
         </div>
     </div>

@@ -44,9 +44,7 @@ export class FiletransferComponent implements OnInit {
   service1 = 0;
   service2 = 1;
 
-  folders: String[] = [
-    'Folder 01'
-  ]
+  folders = []
 
   files1: string[] = [];
   
@@ -166,7 +164,12 @@ export class FiletransferComponent implements OnInit {
   let retreiveDpFiles:any = await this.dpService.dpGetFilesList(displayResult)
   let keys = Object.keys(retreiveDpFiles);
    for(let i = 0; i < keys.length; i++){
-     this.files1.push((retreiveDpFiles[i]));
+     if((retreiveDpFiles[i]).indexOf(".") !== -1){
+      this.files1.push((retreiveDpFiles[i]));
+     }
+     else{
+      this.folders.push((retreiveDpFiles[i]));
+     } 
    };
    window.history.replaceState(null, null, window.location.pathname);
  }
