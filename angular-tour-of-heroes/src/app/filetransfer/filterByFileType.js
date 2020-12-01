@@ -1,126 +1,98 @@
-const DOCS = {
-	a: 'doc',
-	b: 'docx',
-	c: 'txt',
-	d: 'odt',
-	e: 'pdf',
-	f: 'xls',
-	g: 'xlsx',
-	h: 'pdf',
-	i: 'pptx'
-}
-Object.freeze(DOCS);
+const DOCS = [
+	'doc',
+	'docx',
+	'txt',
+    'odt',
+	'pdf',
+    'xls',
+    'xlsx',
+    'pdf',
+	'pptx'
+]
+const IMAGES = [
+	'bmp',
+    'gif',
+	'jpg',
+    'tiff',
+    'svg',
+	'png',
+	'url'
+]
+const AUDIO = [
+	'au',
+    'midi',
+	 'mp3',
+	 'm4a',
+	 'ogg',
+	'ra',
+	'ram',
+	'wav'
+]
+const VIDEO = [
+	'avi',
+	 'mpeg',
+	 'mp4',
+	 'mov',
+	 'wmv'	
+]
+export function buildFileListByFilter(filterName, masterFileList ) {
+		let newFilterName = filterName.toUpperCase();
+		let getDotFiles = []
+		getDotFiles.push(masterFileList.filter(data => {
+			return data.indexOf('.') !== -1;
+		}))
+		let allDotedFiles = getDotedFiles(newFilterName,getDotFiles);
+		let splitItems = '';
+		splitItems = allDotedFiles[0]
+        //console.log("allDotedFiles[0] is " + splitItems.toString())
+		//console.log("splitItems is " +  (splitItems.toString().split(',')).length)
+		return (splitItems.toString().split(','));
+	}
+export function getDotedFiles(filtName, dotedArray){
+  let element = '';
+  let splittedItems = '';
+  let filteredFileList = [];
+  let holdExtensions = [];
 
-const IMAGES = {
-	a: 'bmp',
-	b: 'gif',
-	c: 'jpg',
-	d: 'tiff',
-	e: 'svg',
-	f: 'png'
-}
-Object.freeze(IMAGES);
-
-const AUDIO = {
-	a: 'au',
-	b: 'midi',
-	c: 'mp3',
-	d: 'm4a',
-	e: 'ogg',
-	f: 'ra',
-	g: 'ram',
-	h: 'wav'
-}
-Object.freeze(AUDIO);
-
-const VIDEO = {
-	a: 'avi',
-	b: 'mpeg',
-	c: 'mp4',
-	d: 'mov',
-	e: 'wmv'	
-}
-Object.freeze(VIDEO);
-
-
-
-/*  takes in string filterName, and array masterFileList, then returns array of files to display */
-/* if filterName is not valid then error message is returned */
-function buildFileListByFilter(filterName, masterFileList ) {
-	
-		let i;
-		
-		let filteredFileList = [];// make new array that will list files to display
-	
-		/* iterate through the list of all files, select chosen filter, find matching file extensions
-		and add to array of files to display */
-		for (i = 0; i < masterFileList.length; i++){
-		
-			let fileName = masterFileList [i];
-		
-			let fileExt = fileName.substr(fileName.lastIndexOf('.') + 1); // captures file mime as string
-			
-			let fileExtUpperCase = fileExt.toUpperCase();
-			
-			//return invalid message if filter name doesnt match any of the 4 types
-			if(filterName === 'DOCS' || filterName === 'IMAGES' || filterName === 'AUDIO' || filterName === 'Video' ){
-				
-            }
-
-            // check document file extensions, and add to array if match found
-			else if (filtername === 'DOCS'){
-				
-				for (const prop in DOCS){
-					if(fileExtUpperCase === `${DOCS[prop]}`){
-						filteredFileList.push(fileName);
-					}
+    for (let index = 0; index < dotedArray.length; index++) {
+	  element += (dotedArray[index]);
+	  
+	   holdExtensions.push((element.split('.').pop()));
+			if (filtName == "IMAGES"){
+			 	console.log("Inside filtername is")
+				if(IMAGES.includes(holdExtensions[index])){
+					console.log("Yes It does")
+					filteredFileList.push(dotedArray[index]);
+				}			
+			}	
+			else if (filtName == 'DOCS'){	
+				if(DOCS.includes(holdExtensions[index])){
+					console.log("Yes It does")
+					filteredFileList.push(dotedArray[index]);			
 				}	
 			}
-			// check image file extensions, and add to array if match found
-			else if (filtername === 'IMAGES'){
-				
-				for (const prop in IMAGES){
-					if(fileExtUpperCase === `${IMAGES[prop]}`){
-						filteredFileList.push(fileName);
-					}
+			else if (filtName == 'AUDIO'){				
+				if(AUDIO.includes(holdExtensions[index])){
+					console.log("Yes It does")
+					filteredFileList.push(dotedArray[index]);
 				}	
-			}
-			
-			// check audio file extensions, and add to array if match found
-			else if (filtername === 'AUDIO'){
-				
-				for (const prop in AUDIO){
-					if(fileExtUpperCase === `${AUDIO[prop]}`){
-						filteredFileList.push(fileName);
-					}
+			}					
+			else if (filtName == 'VIDEO'){				
+				if(VIDEO.includes(holdExtensions[index])){
+					console.log("Yes It does")
+					filteredFileList.push(dotedArray[index]);
 				}	
-			}
-			
-			// check video file extensions and add to array if match found
-			else if (filtername === 'VIDEO'){
-				
-				for (const prop in VIDEO){
-					if(fileExtUpperCase === `${VIDEO[prop]}`){
-						filteredFileList.push(fileName);
-					}
-				}	
-            }
-            
-			//send message stating filter name is invalid
+            }           
 			else {
 				let invalid = 'Invalid filterName!'
-				return invalid;
-            }
-            
-            // send message stating array is empty (no files found)
-            if (filteredFileList.length ==0){
-                arrayEmpty = 'No files found';
-				return arrayEmpty;
-                
-            }
-			
-			// return array of files to be displayed
-			return filteredFileList;	
-			
-    }// end of for Loop
-}//end of function
+				return alert(invalid );
+            }            
+            if (filteredFileList.length == 0){
+                let arrayEmpty = 'No files found';
+				return alert(arrayEmpty);               
+			}
+			//console.log("filteredFileList " + filteredFileList.length)
+			return filteredFileList;		
+	}								
+  }	
+		

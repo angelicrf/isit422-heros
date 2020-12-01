@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FilterService } from '../filter.service';
 import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag} from '@angular/cdk/drag-drop';
 import { GdCloudService } from '../gd-cloud.service';
-import { GDClientCredentials } from '../gdClientCredentials';
 import { DpCloudService } from '../dp-cloud.service';
+import {buildFileListByFilter} from '../filetransfer/filterByFileType.js';
 let clFile: string[];
 let showData: string;
 
@@ -44,15 +44,15 @@ export class FiletransferComponent implements OnInit {
   service1 = 0;
   service2 = 1;
 
-  folders = []
+  folders: string[] = []
 
   files1: string[] = [];
   
-  files2: String[]= [
+  files2: string[]= [
     'Document 01'
   ];
 
-  filters: String[];
+  filters: string[];
   acces_Token: any;
 
   constructor(public filterService: FilterService,
@@ -91,7 +91,7 @@ export class FiletransferComponent implements OnInit {
     .catch(err => console.log(err))
   }
 
-  filterList(fil: String[], srv: number): string {
+  filterList(fil: string[], srv: number): string {
     let fList = "";
     let cnt = 0;
     fil.forEach((value, index) => {
@@ -162,15 +162,29 @@ export class FiletransferComponent implements OnInit {
   this.dpService.dpGetClientInfo(displayResult)
  
   let retreiveDpFiles:any = await this.dpService.dpGetFilesList(displayResult)
+  
+  let filterName = this.filterList(this.filters, 0);
+  //console.log("the value of filters is " + filterName)
+  
   let keys = Object.keys(retreiveDpFiles);
-   for(let i = 0; i < keys.length; i++){
-     if((retreiveDpFiles[i]).indexOf(".") !== -1){
-      this.files1.push((retreiveDpFiles[i]));
-     }
-     else{
-      this.folders.push((retreiveDpFiles[i]));
-     } 
+  let holdArrayRetrieved = []
+  
+  for(let i = 0; i < keys.length; i++){
+    holdArrayRetrieved.push(retreiveDpFiles[i])
+  }
+  let newFilteredFiles = buildFileListByFilter(filterName, holdArrayRetrieved )
+  //console.log("newFilteredFiles " + newFilteredFiles)
+
+   for(let i = 0; i < newFilteredFiles.length; i++){
+      this.files1.push((newFilteredFiles[i])); 
    };
+   let intersection: string[] = holdArrayRetrieved.filter(
+     element => !newFilteredFiles.includes(element)  
+      );
+      console.log("intersection " + intersection)
+    for (let index = 0; index < intersection.length; index++) {
+      this.folders.push(intersection[index]);   
+    }
    window.history.replaceState(null, null, window.location.pathname);
  }
 }
