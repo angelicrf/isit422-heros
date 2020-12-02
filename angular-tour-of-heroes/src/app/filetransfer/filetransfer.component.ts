@@ -49,7 +49,7 @@ export class FiletransferComponent implements OnInit {
   files1: string[] = [];
   files1Data: Buffer[] = [];
   
-  files2: String[]= [];
+  files2: string[]= [];
   files2Data: Buffer[] = [];
 
   filters: string[];
