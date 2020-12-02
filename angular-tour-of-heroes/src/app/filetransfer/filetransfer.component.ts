@@ -47,10 +47,10 @@ export class FiletransferComponent implements OnInit {
   folders: string[] = []
 
   files1: string[] = [];
+  files1Data: Buffer[] = [];
   
-  files2: string[]= [
-    'Document 01'
-  ];
+  files2: String[]= [];
+  files2Data: Buffer[] = [];
 
   filters: string[];
   acces_Token: any;
@@ -66,8 +66,7 @@ export class FiletransferComponent implements OnInit {
      this.serviceAccounts[0] = localStorage.getItem('dpEmail')
   }
 
-  async getLocalFiles() {
-    this.leftServiceForm = false
+  async getLocalFiles(side) {
     let filePath = this.serviceAccounts[4];
     const files = await fetch('/api/Files', {
       method: 'POST',
@@ -81,11 +80,30 @@ export class FiletransferComponent implements OnInit {
     })
     .then(response => response.json())
     .then(data => {
-      console.log('data is ' + data)  
-      this.files1.push(data);
-     /*  data.forEach((file) => {
-        this.files1.push(file);
-      }); */
+      if(side === 'left') {
+        data.names.forEach((name) => {
+          if(this.service1 === 4) {
+            this.files1.push(name);
+          }
+        });
+        data.files.forEach((file) => {
+          if(this.service1 === 4) {
+            this.files1Data.push(file);
+          }
+        });
+      }
+      else if(side === 'right') {
+        data.names.forEach((name) => {
+          if(this.service2 === 4) {
+            this.files2.push(name);
+          }
+        });
+        data.files.forEach((file) => {
+          if(this.service2 === 4) {
+            this.files2Data.push(file);
+          }
+        });
+      }
       console.log(data)
     })
     .catch(err => console.log(err))
@@ -108,6 +126,42 @@ export class FiletransferComponent implements OnInit {
     return fList;
   }
 
+  async addLocalFiles(fileName: string, fileData: Buffer) {
+    let filePath = this.serviceAccounts[4];
+    const files = await fetch('/api/AddFiles', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+      body: JSON.stringify({
+        filePath: filePath,
+        fileName: fileName,
+        fileData: fileData
+      })
+    })
+    .then(response => response.json())
+    .catch(err => console.log(err))
+  }
+
+  async deleteLocalFiles(fileName: string, fileData: Buffer) {
+    let filePath = this.serviceAccounts[4];
+    const files = await fetch('/api/DeleteFiles', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+      body: JSON.stringify({
+        filePath: filePath,
+        fileName: fileName,
+        fileData: fileData
+      })
+    })
+    .then(response => response.json())
+    .catch(err => console.log(err))
+  }
+
   getFilters(): void {
     this.filters = this.filterService.getFilters();
   }
@@ -120,8 +174,48 @@ export class FiletransferComponent implements OnInit {
                         event.container.data,
                         event.previousIndex,
                         event.currentIndex);
+      
+      let itemName = event.container.data[event.currentIndex];
+      // if coming from left container
+      if(event.previousContainer.id === "left") {
+        // if left container is set to local files
+        if(this.service1 === 4) {
+          this.deleteLocalFiles(itemName, null);
+        }
+      }
+      // if going to left container
+      if(event.container.id === 'left') {
+        // if left container is set to Google Drive
+        if(this.service1 === 1) {
+          this.addGDFile();
+        }
+        // if left container is set to local files
+        if(this.service1 === 4) {
+          // TODO: change to actual file, currently a placeholder
+          this.addLocalFiles('left.txt', this.files2Data[0])
+        }
+      }
+      // if coming from right container
+      if(event.previousContainer.id === "right") {
+        // if right container is set to local files
+        if(this.service2 === 4) {
+          this.deleteLocalFiles(itemName, null);
+        }
+      }
+      // if going to right container
+      if(event.container.id === 'right') {
+        // if right container is set to Google Drive
+        if(this.service2 === 1) {
+          this.addGDFile();
+        }
+        // if right container is set to local files
+        if(this.service2 === 4) {
+          // TODO: change to actual file, currently a placeholder
+          this.addLocalFiles('right.txt', this.files1Data[0])
+        }
       }
     }
+  }
 
   /** Predicate function that only allows filtered types to be dropped into a list */
   filterPredicate(item: CdkDrag<String>) {
@@ -132,6 +226,7 @@ export class FiletransferComponent implements OnInit {
   noReturnPredicate() {
     return false;
   }
+
   async getFiles() {
     this.leftServiceForm = false
     return await new Promise((resolve,reject) => {
@@ -148,6 +243,7 @@ export class FiletransferComponent implements OnInit {
       })
     }) 
   }
+
   async displayClientFiles(){
        let holdClientFilesToDisplay = await this.getFiles()
        console.log("displayClientFiles " + holdClientFilesToDisplay);
@@ -187,4 +283,38 @@ export class FiletransferComponent implements OnInit {
     }
    window.history.replaceState(null, null, window.location.pathname);
  }
+
+  // TODO: pass actual data
+  // TODO: change to multi-part to be able to name file
+  async addGDFile() {
+    return await new Promise((resolve,reject) => {
+      return gapi.client
+      .request({
+        method: 'POST',
+        path: 'https://www.googleapis.com/upload/drive/v3/files?uploadType=media',
+        'headers': {
+          'Content-Type': 'text/plain',
+          'Content-Length': 337
+        },
+        body: 'Test'
+      })
+      .then(async () => {
+        console.log('Added')
+      })
+    }) 
+  }
+
+  // TODO: get the file id to pass into request
+  async removeGDFile() {
+    return await new Promise((resolve,reject) => {
+      return gapi.client
+      .request({
+        method: 'DELETE',
+        path: 'https://www.googleapis.com/upload/drive/v3/files/',
+      })
+      .then(async () => {
+        console.log('Removed')
+      })
+    }) 
+  }
 }
