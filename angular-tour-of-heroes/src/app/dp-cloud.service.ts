@@ -93,6 +93,20 @@ dpGetClientInfo(dpAccessToken:string){
          //console.log(JSON.stringify("Elements are " + holdelement))
     })
   }
+  dPUploadFromNode() {
+    fetch('/api/DPUpload', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    })
+      .then((response) => {
+        alert("File is submitted to your Dropbox");
+        return console.log(response)
+      })
+      .catch((err) => console.log(err));
+  }
   
 }
 function sendDpClientInfo(getDbName,getDbEmail,getUserMongoId){
@@ -113,3 +127,4 @@ function sendDpClientInfo(getDbName,getDbEmail,getUserMongoId){
   .then(data => console.log(data))
   .catch(err => console.log(err))
 }
+

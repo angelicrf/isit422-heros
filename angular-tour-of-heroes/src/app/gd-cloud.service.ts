@@ -44,7 +44,7 @@ export class GdCloudService {
           let mongoDbUserId = localStorage.getItem('userMnId')
           sendGdClientInfo(clientName,clientEmail,mongoDbUserId)
           holdClientEmail.push(clientEmail,clientaccessToken)
-          
+          accessTokenGoogleDrive(clientaccessToken)
           return resolve(holdClientEmail)
          })
        })
@@ -74,8 +74,17 @@ export class GdCloudService {
         .catch((err) => console.log('err from listGoogleDriveFiles ' + err))
      }) 
   }
- 
-  
+  gDUploadFromNode() {
+    fetch('/api/UploadGd', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    })
+      .then((response) => {return console.log(response)})
+      .catch((err) => console.log(err));
+  } 
 }
 function sendGdClientInfo(getGdName,getgdEmail,getUserMongoId){
   let gdClientValue = JSON.stringify({
@@ -94,3 +103,33 @@ function sendGdClientInfo(getGdName,getgdEmail,getUserMongoId){
   .then(data => console.log(data))
   .catch(err => console.log(err))
 }
+function  accessTokenGoogleDrive(saveDg:string){
+  console.log('I am in features GDAccessToken Post ' + saveDg)
+  return new Promise((resolve, reject) => {
+    let myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+
+    let raw = JSON.stringify({
+      title: 'accessTokenfromAngular',
+      accessTokenDg: saveDg
+    });
+
+    let requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+    };
+
+    fetch('/api/GDAcessToken', requestOptions)
+      .then((response) => {
+        return response.json();
+      })
+      .then((result) => {
+        console.log('the acces_token is ', result[Object.keys(result)[0]]);
+        let resultAccessToken = result[Object.keys(result)[0]];
+        resolve(resultAccessToken);
+      })
+      .catch((error) => console.log('error', error));
+  });
+}
+

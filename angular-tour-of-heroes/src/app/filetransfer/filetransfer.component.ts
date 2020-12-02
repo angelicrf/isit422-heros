@@ -198,6 +198,10 @@ export class FiletransferComponent implements OnInit {
       // if coming from right container
       if(event.previousContainer.id === "right") {
         // if right container is set to local files
+        if(this.service1 === 0) {
+          //Delete from dp
+          //this.addGDFile();
+        }
         if(this.service2 === 4) {
           this.deleteLocalFiles(itemName, null);
         }
@@ -205,6 +209,14 @@ export class FiletransferComponent implements OnInit {
       // if going to right container
       if(event.container.id === 'right') {
         // if right container is set to Google Drive
+        if(this.service1 === 0) {
+          //upload to dp
+        this.dpService.dPUploadFromNode()
+        }
+        if(this.service1 === 1) {
+          //upload to gd
+        this.gdService.gDUploadFromNode()
+        }
         if(this.service2 === 1) {
           this.addGDFile();
         }
@@ -291,6 +303,7 @@ export class FiletransferComponent implements OnInit {
       return gapi.client
       .request({
         method: 'POST',
+              //https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id'
         path: 'https://www.googleapis.com/upload/drive/v3/files?uploadType=media',
         'headers': {
           'Content-Type': 'text/plain',
