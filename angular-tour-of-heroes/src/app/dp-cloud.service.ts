@@ -93,20 +93,69 @@ dpGetClientInfo(dpAccessToken:string){
          //console.log(JSON.stringify("Elements are " + holdelement))
     })
   }
-  dPUploadFromNode() {
-    fetch('/api/DPUpload', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
-    })
-      .then((response) => {
-        alert("File is submitted to your Dropbox");
-        return console.log(response)
+  async dPDownloadFromNode() {
+    return await new Promise((resolve,reject) => {
+      fetch('/api/DPDownload', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
       })
-      .catch((err) => console.log(err));
+        .then((response) => {
+          console.log(response)
+          return resolve(response)
+        })
+        .catch((err) => console.log(err));
+    })
+  }   
+
+  async dPUploadFromNode() {
+    return await new Promise((resolve,reject) => {
+      fetch('/api/DPUpload', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      })
+        .then((response) => {
+          alert("File is submitted to your Dropbox");
+          console.log(response)
+          return resolve(response);
+        })
+        .catch((err) => console.log(err));
+    })
   }
+  async dpPathFiles(dpPathGiven){
+    console.log("dpPathFile is called" + dpPathGiven)
+    return await new Promise((resolve, reject) => {
+      let myHeaders = new Headers();
+              myHeaders.append('Accept', '/');
+              myHeaders.append('Origin', 'x-requested-with');
+              myHeaders.append('Content-Type', 'application/json');
+  
+              let raw = JSON.stringify({
+                title: 'dpPathfromAngular',
+                dpGetFPath: dpPathGiven,
+              });
+              let requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body:raw
+              }; 
+              fetch(
+                '/api/DpPath',
+                requestOptions
+              )
+                .then((response) =>
+                  {return response.text()
+                
+                  })//verify this part
+                .then(response => {return resolve(response)})
+                .catch((err) => console.log('from dpPath ' + err))
+    })
+  } 
   
 }
 function sendDpClientInfo(getDbName,getDbEmail,getUserMongoId){

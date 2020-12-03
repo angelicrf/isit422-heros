@@ -166,7 +166,7 @@ export class FiletransferComponent implements OnInit {
     this.filters = this.filterService.getFilters();
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+ async drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -210,13 +210,29 @@ export class FiletransferComponent implements OnInit {
       if(event.container.id === 'right') {
         // if right container is set to Google Drive
         if(this.service1 === 0) {
-          //upload to dp
-        this.dpService.dPUploadFromNode()
+          //Download and then upload to dp
+          console.log( "this.files2[0] " + this.files2[0])
+          await this.dpService.dpPathFiles(this.files2[0])
+          await this.dpService.dPDownloadFromNode()
+          await this.dpService.dPUploadFromNode()
         }
         if(this.service1 === 1) {
-          //upload to gd
-        this.gdService.gDUploadFromNode()
-        }
+          //Download and upload to gd
+          console.log( "this.files2[0] " + this.files2[0])
+          //get the selected file id
+          let storeRetrivedGdId = (this.files2[0]).toString().split("/").pop();
+          console.log( "storeRetrivedGdId " + storeRetrivedGdId)
+          await this.gdService.getGdId(storeRetrivedGdId)
+          let gdDownloadResult:any = await this.gdService.gDDownloadFromNode();
+          console.log("gdDownloadResult " + gdDownloadResult);
+          this.gdService.gDUploadFromNode()
+          .then(result => {
+            console.log("result from upload then " + result);
+            this.gdService.gDUpdateFileName()
+          })
+          .catch(err => console.log(err))
+           
+           }
         if(this.service2 === 1) {
           this.addGDFile();
         }
@@ -228,7 +244,6 @@ export class FiletransferComponent implements OnInit {
       }
     }
   }
-
   /** Predicate function that only allows filtered types to be dropped into a list */
   filterPredicate(item: CdkDrag<String>) {
     return item.data === "";

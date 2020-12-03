@@ -3,6 +3,7 @@ import { GDClientCredentials} from './gdClientCredentials';
 
 let holdClientEmail = []
 let holdClientFiles = []
+let holdClientFileId = []
 let getEmailValue = false
 
 @Injectable({
@@ -66,7 +67,7 @@ export class GdCloudService {
                 if(fl.mimeType == "application/octet-stream"){
                   allClientFiles.push((fl.name + '.bin'));
                 }else
-                allClientFiles.push((fl.name + '.' + fl.fileExtension));      
+                allClientFiles.push((fl.name + '.' + fl.fileExtension + "/" + fl.id));      
               })
               console.log('files from gd-cloud Services ' + allClientFiles)
             return resolve(allClientFiles);
@@ -74,8 +75,23 @@ export class GdCloudService {
         .catch((err) => console.log('err from listGoogleDriveFiles ' + err))
      }) 
   }
-  gDUploadFromNode() {
-    fetch('/api/UploadGd', {
+  async gDUploadFromNode() {
+    return await new Promise((resolve,reject) => {
+      fetch('/api/UploadGd', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      })
+        .then((response) => {
+          console.log(response)
+          return resolve(response) })
+        .catch((err) => console.log(err));
+    })
+  }
+  gDUpdateFileName() {
+    fetch('/api/GDUpdateFile', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -84,8 +100,52 @@ export class GdCloudService {
     })
       .then((response) => {return console.log(response)})
       .catch((err) => console.log(err));
+  }
+  //Take care of the fileId
+  async getGdId(fileId:string){
+    return new Promise((resolve, reject) => {
+      let myHeaders = new Headers();
+          myHeaders.append('Accept', '/');
+          myHeaders.append('Origin', 'x-requested-with');
+          myHeaders.append('Content-Type', 'application/json');
+    
+          let raw = JSON.stringify({
+            title: 'codefromAngular',
+            gdSaveId: fileId,
+          });
+          let requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body:raw
+          }; 
+          fetch(
+            '/api/GdId',
+            requestOptions
+          )
+            .then((response) =>
+              {return response.text()}
+                  )//verify on this
+            .then(response => {return resolve(response)})
+            .catch((err) => console.log('Error from GDId ' + err))
+    })
+  }
+ async gDDownloadFromNode() {
+    return await new Promise((resolve,reject) => {
+      fetch('/api/DownloadGd', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      })
+        .then((response) => {
+          console.log(response)
+          return resolve(response) })
+        .catch((err) => console.log(err));
+    })  
   } 
 }
+
 function sendGdClientInfo(getGdName,getgdEmail,getUserMongoId){
   let gdClientValue = JSON.stringify({
     gdname: getGdName,
