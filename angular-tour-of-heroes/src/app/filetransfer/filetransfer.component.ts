@@ -4,8 +4,11 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag} from '@angular
 import { GdCloudService } from '../gd-cloud.service';
 import { DpCloudService } from '../dp-cloud.service';
 import {buildFileListByFilter} from '../filetransfer/filterByFileType.js';
+import { GDClientCredentials } from '../gdClientCredentials';
 let clFile: string[];
 let showData: string;
+let retreiveDpFiles:any = {};
+let holdClientFilesToDisplay:any = {};
 
 @Component({
   selector: 'app-filetransfer',
@@ -16,6 +19,7 @@ export class FiletransferComponent implements OnInit {
 
   leftServiceForm = false;
   rightServiceForm = false;
+  gdEmail:string = this.readLocalStorageValue('gdUserEmail')
   
   serviceIcons = [
     "assets/images/dropbox.png",
@@ -57,7 +61,8 @@ export class FiletransferComponent implements OnInit {
 
   constructor(public filterService: FilterService,
     private gdService: GdCloudService, 
-    private dpService: DpCloudService) {
+    private dpService: DpCloudService,
+    private gdcl:GDClientCredentials) {
       showData = this.dpService.getCodefromUri();
     }
 
@@ -65,7 +70,9 @@ export class FiletransferComponent implements OnInit {
      this.getFilters();
      this.serviceAccounts[0] = localStorage.getItem('dpEmail')
   }
-
+  readLocalStorageValue(key) {
+    return localStorage.getItem(key)
+  }
   async getLocalFiles(side) {
     let filePath = this.serviceAccounts[4];
     const files = await fetch('/api/Files', {
@@ -177,7 +184,7 @@ export class FiletransferComponent implements OnInit {
       
       let itemName = event.container.data[event.currentIndex];
       // if coming from left container
-      if(event.previousContainer.id === "left") {
+    /*   if(event.previousContainer.id === "left") {
         // if left container is set to local files
         if(this.service1 === 4) {
           this.deleteLocalFiles(itemName, null);
@@ -193,57 +200,97 @@ export class FiletransferComponent implements OnInit {
         if(this.service1 === 4) {
           // TODO: change to actual file, currently a placeholder
           this.addLocalFiles('left.txt', this.files2Data[0])
-        }
+        } */
       }
       // if coming from right container
       if(event.previousContainer.id === "right") {
         // if right container is set to local files
-        if(this.service1 === 0) {
+       /*  if(this.service1 === 0) {
           //Delete from dp
           //this.addGDFile();
         }
         if(this.service2 === 4) {
           this.deleteLocalFiles(itemName, null);
-        }
+        } */
       }
       // if going to right container
       if(event.container.id === 'right') {
         // if right container is set to Google Drive
-        if(this.service1 === 0) {
+        /*  if(this.service1 === 0) {
           //Download and then upload to dp
-          console.log( "this.files2[0] " + this.files2[0])
-          await this.dpService.dpPathFiles(this.files2[0])
-          await this.dpService.dPDownloadFromNode()
-          await this.dpService.dPUploadFromNode()
-        }
-        if(this.service1 === 1) {
-          //Download and upload to gd
-          console.log( "this.files2[0] " + this.files2[0])
-          //get the selected file id
-          let storeRetrivedGdId = (this.files2[0]).toString().split("/").pop();
-          console.log( "storeRetrivedGdId " + storeRetrivedGdId)
-          await this.gdService.getGdId(storeRetrivedGdId)
+          // console.log( "this.files2[0] " + this.files2[0])
+          let storePath = (this.files2[0]).toString();
+          let holdLowerpath = []
+          let keys = Object.keys(retreiveDpFiles);
+          for(let i = 0; i < keys.length; i++){
+            if(retreiveDpFiles[i].dpClName === storePath.toString() ) {
+              console.log( "inside the loop");
+              holdLowerpath.push(retreiveDpFiles[i].dpClPath)
+            }
+          }
+          //.substring(storePath.indexOf("/")
+          let storeRetrivedDpId = holdLowerpath[0];
+          console.log( "storeRetrivedDpId " + storeRetrivedDpId);
+          await this.dpService.dpPathFiles(storeRetrivedDpId);
+          await this.dpService.dPDownloadFromNode();
+          //await this.gdService.gDUploadFromNode();
+          //setTimeout(async() => {await this.gdService.gDUpdateFileName()}, 5000);
+         //await this.dpService.dPUploadFromNode()
+         
+        } */ 
+       if(this.service1 === 1) {
+       //  console.log( "this.files2[0] " + this.files2[0])
+         let gdStoreName = (this.files2[0]).toString();
+         let holdGdIdFiles = [];
+         let keys = Object.keys(holdClientFilesToDisplay);
+         for (let index = 0; index < keys.length; index++) {
+           if(holdClientFilesToDisplay[index].gdClName === gdStoreName.toString() ) {
+            console.log( "inside the loop");
+            holdGdIdFiles.push(holdClientFilesToDisplay[index].gdClId)
+          }   
+         }
+        // console.log( "holdGdIdFiles is " + holdGdIdFiles);
+        // console.log( "gdStoreName is " + gdStoreName);
+          //get the selected file id //.toString().split("/").pop();
+          await this.gdService.getGdId(holdGdIdFiles[0],gdStoreName );
           let gdDownloadResult:any = await this.gdService.gDDownloadFromNode();
-          console.log("gdDownloadResult " + gdDownloadResult);
-          this.gdService.gDUploadFromNode()
-          .then(result => {
-            console.log("result from upload then " + result);
-            this.gdService.gDUpdateFileName()
-          })
-          .catch(err => console.log(err))
+          console.log("gdDownloadResult " + gdDownloadResult); 
+          await this.dpService.dPUploadFromNode()
            
-           }
-        if(this.service2 === 1) {
+           } 
+       /*  if(this.service2 === 1) {
           this.addGDFile();
         }
         // if right container is set to local files
         if(this.service2 === 4) {
           // TODO: change to actual file, currently a placeholder
           this.addLocalFiles('right.txt', this.files1Data[0])
-        }
+        } */
       }
     }
-  }
+    clientEmailValue(v: string) {
+      if(localStorage.getItem('gdUserEmail') == null){
+        this.gdEmail = v;
+      localStorage.setItem('gdUserEmail', this.gdEmail);
+      console.log('the value from set2 ' + this.gdEmail)
+      }else if(localStorage.getItem('gdUserEmail') !== v){
+        localStorage.removeItem('gdUserEmail')
+        this.gdEmail = v;
+        localStorage.setItem('gdUserEmail', this.gdEmail);
+      console.log('the value from set2 ' + this.gdEmail)
+      }else this.gdEmail = localStorage.getItem('gdUserEmail')
+    }
+    async getClientEmail(){
+      return await this.clientEmailValue(this.gdcl.holdDataClient[0])
+     }
+    async googleDriveInit(){
+      //this.googleDriveForm = true
+      let holdPromise = await this.gdService.googleImplementCallBack()
+      console.log("HoldPromises " + holdPromise)
+      let holdUserData = await this.getClientEmail()
+      console.log("holdUserData " + holdUserData)
+      }
+  
   /** Predicate function that only allows filtered types to be dropped into a list */
   filterPredicate(item: CdkDrag<String>) {
     return item.data === "";
@@ -255,28 +302,29 @@ export class FiletransferComponent implements OnInit {
   }
 
   async getFiles() {
+    console.log("getFiles called")
     this.leftServiceForm = false
-    return await new Promise((resolve,reject) => {
-      return gapi.client
+    return await new Promise(async(resolve,reject) => {
+     /*  return gapi.client
       .request({
         method: 'GET',
         path:
           'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest',
       })
-      .then(async () => {
+      .then(async () => { */
+        console.log("getFiles called two")
         let displayItems:any = await this.gdService.listGoogleDriveFiles();   
           
         return resolve(displayItems);
-      })
+      //})
     }) 
   }
-
   async displayClientFiles(){
-       let holdClientFilesToDisplay = await this.getFiles()
-       console.log("displayClientFiles " + holdClientFilesToDisplay);
+    holdClientFilesToDisplay = await this.getFiles()
+      // console.log("displayClientFiles " + JSON.stringify(holdClientFilesToDisplay));
        let keys = Object.keys(holdClientFilesToDisplay);
        for(let i = 0; i < keys.length; i++){
-            this.files1.push((holdClientFilesToDisplay[i]));
+            this.files1.push((holdClientFilesToDisplay[i].gdClName));
       };
        return this.files1
   }
@@ -284,18 +332,21 @@ export class FiletransferComponent implements OnInit {
   let displayResult:any = await this.dpService.sendMessageToNode(showData)
   this.dpService.dpGetClientInfo(displayResult)
  
-  let retreiveDpFiles:any = await this.dpService.dpGetFilesList(displayResult)
+  retreiveDpFiles = await this.dpService.dpGetFilesList(displayResult)
   
-  let filterName = this.filterList(this.filters, 0);
-  //console.log("the value of filters is " + filterName)
+  let filterName = 'Images';
+  //this.filterList(this.filters, 0);
+  //console.log("retreiveDpFiles is " + JSON.stringify(retreiveDpFiles))
   
   let keys = Object.keys(retreiveDpFiles);
   let holdArrayRetrieved = []
   
   for(let i = 0; i < keys.length; i++){
-    holdArrayRetrieved.push(retreiveDpFiles[i])
+     
+    holdArrayRetrieved.push(retreiveDpFiles[i].dpClName)
+    this.files1.push((holdArrayRetrieved[i]));
   }
-  let newFilteredFiles = buildFileListByFilter(filterName, holdArrayRetrieved )
+  /* let newFilteredFiles = buildFileListByFilter(filterName, holdArrayRetrieved )
   //console.log("newFilteredFiles " + newFilteredFiles)
 
    for(let i = 0; i < newFilteredFiles.length; i++){
@@ -307,7 +358,7 @@ export class FiletransferComponent implements OnInit {
       console.log("intersection " + intersection)
     for (let index = 0; index < intersection.length; index++) {
       this.folders.push(intersection[index]);   
-    }
+    } */
    window.history.replaceState(null, null, window.location.pathname);
  }
 

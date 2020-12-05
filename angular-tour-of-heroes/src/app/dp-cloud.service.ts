@@ -79,14 +79,19 @@ dpGetClientInfo(dpAccessToken:string){
      console.log(JSON.stringify(dbx));
      dbx
      .filesListFolder({
-       path: '',
+      path: '',
+      recursive: true
      })
        .then(response => {
          let hpldDpFiles = response.result.entries
+         console.log( "hpldDpFiles " + JSON.stringify(hpldDpFiles[0].path_lower))
          for (let index = 0; index < hpldDpFiles.length; index++) {
-            holdelement.push(hpldDpFiles[index].name);
+           let holdObj = {};
+            holdObj["dpClName"] = hpldDpFiles[index].name;
+            holdObj["dpClPath"] = hpldDpFiles[index].path_lower;
+            holdelement[index] = holdObj;  
          } 
-         //console.log(JSON.stringify("Elements are " + holdelement))
+         //console.log(JSON.stringify("Elements are " + JSON.stringify(holdelement)))
          return resolve(holdelement) 
          })
        .catch((err) => console.log(err)) 

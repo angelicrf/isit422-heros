@@ -4,6 +4,7 @@ import { GDClientCredentials} from './gdClientCredentials';
 let holdClientEmail = []
 let holdClientFiles = []
 let holdClientFileId = []
+let allClientFiles:any = []
 let getEmailValue = false
 
 @Injectable({
@@ -62,14 +63,20 @@ export class GdCloudService {
         q: "'root' in parents and trashed = false",
       })
       .then((res) => { 
-        let allClientFiles:any = []
-              res.result.files.forEach(fl => {
-                if(fl.mimeType == "application/octet-stream"){
-                  allClientFiles.push((fl.name + '.bin'));
-                }else
-                allClientFiles.push((fl.name + '.' + fl.fileExtension + "/" + fl.id));      
-              })
-              console.log('files from gd-cloud Services ' + allClientFiles)
+        console.log('listGoogleDriveFiles called2')
+        let holdGdClientFiles = res.result.files;
+            for (let index = 0; index < holdGdClientFiles.length; index++) { 
+            /*   if(holdGdClientFiles[index].mimeType == "application/octet-stream"){
+                allClientFiles.push((holdGdClientFiles[index].name + '.bin'));
+              }else */
+               {
+                 let holdDpObj = {};
+                 holdDpObj["gdClId"] = holdGdClientFiles[index].id;
+                 holdDpObj["gdClName"] = holdGdClientFiles[index].name;
+                 allClientFiles[index] = holdDpObj;    
+               }  
+            }  
+              //console.log('files from gd-cloud Services ' + JSON.stringify(allClientFiles))
             return resolve(allClientFiles);
           })
         .catch((err) => console.log('err from listGoogleDriveFiles ' + err))
@@ -90,7 +97,8 @@ export class GdCloudService {
         .catch((err) => console.log(err));
     })
   }
-  gDUpdateFileName() {
+ async gDUpdateFileName() {
+   return await new Promise((resolve,reject) => {
     fetch('/api/GDUpdateFile', {
       method: 'GET',
       headers: {
@@ -98,11 +106,16 @@ export class GdCloudService {
         'Access-Control-Allow-Origin': '*',
       },
     })
-      .then((response) => {return console.log(response)})
+      .then((response) => {
+         console.log(response) 
+        return (resolve(response))})
       .catch((err) => console.log(err));
+   })
+  
   }
   //Take care of the fileId
-  async getGdId(fileId:string){
+  async getGdId(fileId:string,fileGdName:string){
+    console.log("fileGdName from gd-service " + fileGdName);
     return new Promise((resolve, reject) => {
       let myHeaders = new Headers();
           myHeaders.append('Accept', '/');
@@ -112,6 +125,7 @@ export class GdCloudService {
           let raw = JSON.stringify({
             title: 'codefromAngular',
             gdSaveId: fileId,
+            gdSaveFileName: fileGdName
           });
           let requestOptions = {
             method: 'POST',
