@@ -216,7 +216,7 @@ export class FiletransferComponent implements OnInit {
       // if going to right container
       if(event.container.id === 'right') {
         // if right container is set to Google Drive
-        /*  if(this.service1 === 0) {
+          if(this.service1 === 0) {
           //Download and then upload to dp
           // console.log( "this.files2[0] " + this.files2[0])
           let storePath = (this.files2[0]).toString();
@@ -233,12 +233,10 @@ export class FiletransferComponent implements OnInit {
           console.log( "storeRetrivedDpId " + storeRetrivedDpId);
           await this.dpService.dpPathFiles(storeRetrivedDpId);
           await this.dpService.dPDownloadFromNode();
-          //await this.gdService.gDUploadFromNode();
-          //setTimeout(async() => {await this.gdService.gDUpdateFileName()}, 5000);
-         //await this.dpService.dPUploadFromNode()
-         
-        } */ 
-       if(this.service1 === 1) {
+          await this.gdService.gDUploadFromNode();
+          setTimeout(async() => {await this.gdService.gDUpdateFileName()}, 5000);
+        }  
+      /*  if(this.service1 === 1) {
        //  console.log( "this.files2[0] " + this.files2[0])
          let gdStoreName = (this.files2[0]).toString();
          let holdGdIdFiles = [];
@@ -249,15 +247,13 @@ export class FiletransferComponent implements OnInit {
             holdGdIdFiles.push(holdClientFilesToDisplay[index].gdClId)
           }   
          }
-        // console.log( "holdGdIdFiles is " + holdGdIdFiles);
-        // console.log( "gdStoreName is " + gdStoreName);
-          //get the selected file id //.toString().split("/").pop();
+     
           await this.gdService.getGdId(holdGdIdFiles[0],gdStoreName );
           let gdDownloadResult:any = await this.gdService.gDDownloadFromNode();
           console.log("gdDownloadResult " + gdDownloadResult); 
           await this.dpService.dPUploadFromNode()
            
-           } 
+           }  */
        /*  if(this.service2 === 1) {
           this.addGDFile();
         }
