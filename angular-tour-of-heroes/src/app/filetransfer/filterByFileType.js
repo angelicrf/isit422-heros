@@ -38,16 +38,26 @@ const VIDEO = [
 export function buildFileListByFilter(filterName, masterFileList ) {
 	let newFilterName = filterName.toUpperCase();
 		let getDotFiles = []
-		getDotFiles.push(masterFileList.filter(data => {
-			return data.indexOf('.') !== -1;
-		}))
-		let allDotedFiles = getDotedFiles(newFilterName,getDotFiles);
+		let holdSelectedFiles = []
+
+		if(newFilterName === "IMAGES"){
+			console.log("inside Images")
+			let definedIT = '';
+		for (let index = 0; index < IMAGES.length; index++) {
+			definedIT += masterFileList.filter(data => {
+				return data.indexOf(IMAGES[index]) !== -1 && data != null && data != "" && data != ",";
+			});		
+		}
+		holdSelectedFiles.push(definedIT);
+	   }
+		// console.log("images are " + holdImagesFiles + " " + holdImagesFiles.length);
+	  
 		let splitItems = '';
-		splitItems = allDotedFiles[0]
-		console.log("allDotedFiles is " + allDotedFiles + " " +  allDotedFiles.length);
-        console.log("allDotedFiles[0] is " + splitItems.toString());
+		splitItems = holdSelectedFiles[0]
+		//console.log("allDotedFiles is " + allDotedFiles + " " +  allDotedFiles.length);
+        //console.log("allDotedFiles[0] is " + splitItems.toString());
 		//console.log("splitItems is " +  (splitItems.toString().split(',')).length)
-		return allDotedFiles;
+		return (splitItems.toString().split(','));
 	}
 export function getDotedFiles(filtName, dotedArray){
 
