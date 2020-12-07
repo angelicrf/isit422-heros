@@ -36,7 +36,7 @@ const VIDEO = [
 	 'wmv'	
 ]
 export function buildFileListByFilter(filterName, masterFileList ) {
-		let newFilterName = filterName.toUpperCase();
+	let newFilterName = filterName.toUpperCase();
 		let getDotFiles = []
 		getDotFiles.push(masterFileList.filter(data => {
 			return data.indexOf('.') !== -1;
@@ -44,44 +44,37 @@ export function buildFileListByFilter(filterName, masterFileList ) {
 		let allDotedFiles = getDotedFiles(newFilterName,getDotFiles);
 		let splitItems = '';
 		splitItems = allDotedFiles[0]
-        //console.log("allDotedFiles[0] is " + splitItems.toString())
+		console.log("allDotedFiles is " + allDotedFiles + " " +  allDotedFiles.length);
+        console.log("allDotedFiles[0] is " + splitItems.toString());
 		//console.log("splitItems is " +  (splitItems.toString().split(',')).length)
-		return (splitItems.toString().split(','));
+		return allDotedFiles;
 	}
 export function getDotedFiles(filtName, dotedArray){
-  let element = '';
-  let splittedItems = '';
-  let filteredFileList = [];
-  let holdExtensions = [];
 
-    for (let index = 0; index < dotedArray.length; index++) {
-	  element += (dotedArray[index]);
-	  
-	   holdExtensions.push((element.split('.').pop()));
+  let filteredFileList = [];
+	console.log("dotedArray is" + dotedArray );
 			if (filtName == "IMAGES"){
 			 	console.log("Inside filtername is")
-				if(IMAGES.includes(holdExtensions[index])){
-					console.log("Yes It does")
-					filteredFileList.push(dotedArray[index]);
-				}			
+		        let tfg = dotedArray.filter(el => el.toString());   
+				let  matches = dotedArray.filter(s => s.toString().includes('png'));
+				filteredFileList.push(matches);	
+				    console.log("matches" + matches);
+					console.log("tfg" + tfg);			
 			}	
 			else if (filtName == 'DOCS'){	
-				if(DOCS.includes(holdExtensions[index])){
+				let tfd = dotedArray.filter(el => el.toString().endsWith(''));
 					console.log("Yes It does")
-					filteredFileList.push(dotedArray[index]);			
-				}	
+					filteredFileList.push(tfd);				
 			}
 			else if (filtName == 'AUDIO'){				
-				if(AUDIO.includes(holdExtensions[index])){
+				let tfo = dotedArray.filter(el => el.toString().endsWith(''));
 					console.log("Yes It does")
-					filteredFileList.push(dotedArray[index]);
-				}	
+					filteredFileList.push(tfo);	
 			}					
 			else if (filtName == 'VIDEO'){				
-				if(VIDEO.includes(holdExtensions[index])){
+				let tfv =dotedArray.filter(el => el.toString().endsWith(''));
 					console.log("Yes It does")
-					filteredFileList.push(dotedArray[index]);
-				}	
+					filteredFileList.push(tfv);
             }           
 			else {
 				let invalid = 'Invalid filterName!'
@@ -90,9 +83,11 @@ export function getDotedFiles(filtName, dotedArray){
             if (filteredFileList.length == 0){
                 let arrayEmpty = 'No files found';
 				return alert(arrayEmpty);               
-			}
-			//console.log("filteredFileList " + filteredFileList.length)
-			return filteredFileList;		
-	}								
+			}			
+		
+	return filteredFileList;							
   }	
+
+
+
 		

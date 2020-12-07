@@ -184,76 +184,77 @@ export class FiletransferComponent implements OnInit {
       
       let itemName = event.container.data[event.currentIndex];
       // if coming from left container
-    /*   if(event.previousContainer.id === "left") {
-        // if left container is set to local files
-        if(this.service1 === 4) {
+     if(event.previousContainer.id === "left") {
+         // if left container is set to local files
+  /*       if(this.service1 === 4) {
           this.deleteLocalFiles(itemName, null);
-        }
+        }  */
       }
       // if going to left container
       if(event.container.id === 'left') {
         // if left container is set to Google Drive
         if(this.service1 === 1) {
-          this.addGDFile();
+          this.addLocalFiles('right.txt', this.files1Data[0])
         }
         // if left container is set to local files
-        if(this.service1 === 4) {
+       /* if(this.service1 === 4) {
           // TODO: change to actual file, currently a placeholder
           this.addLocalFiles('left.txt', this.files2Data[0])
         } */
-      }
+        if(this.service1 === 1) {
+          console.log( "this.files2[0] " + this.files2[0])
+          let gdStoreName = (this.files2[0]).toString();
+          let holdGdIdFiles = [];
+          let keys = Object.keys(holdClientFilesToDisplay);
+          for (let index = 0; index < keys.length; index++) {
+            if(holdClientFilesToDisplay[index].gdClName === gdStoreName.toString() ) {
+             console.log( "inside the loop");
+             holdGdIdFiles.push(holdClientFilesToDisplay[index].gdClId)
+           }   
+          }
+           await this.gdService.getGdId(holdGdIdFiles[0],gdStoreName );
+           let gdDownloadResult:any = await this.gdService.gDDownloadFromNode();
+           console.log("gdDownloadResult " + gdDownloadResult); 
+           await this.dpService.dPUploadFromNode()   
+            } 
+
+     }
       // if coming from right container
       if(event.previousContainer.id === "right") {
         // if right container is set to local files
-       /*  if(this.service1 === 0) {
-          //Delete from dp
-          //this.addGDFile();
-        }
-        if(this.service2 === 4) {
+         if(this.service1 === 4) {
+           this.addGDFile();
+        } 
+       /*  if(this.service2 === 4) {
           this.deleteLocalFiles(itemName, null);
         } */
-      }
       // if going to right container
-      if(event.container.id === 'right') {
+       if(event.container.id === 'right') {
         // if right container is set to Google Drive
           if(this.service1 === 0) {
           //Download and then upload to dp
           // console.log( "this.files2[0] " + this.files2[0])
           let storePath = (this.files2[0]).toString();
+          console.log( "this.files2 " + this.files2)
           let holdLowerpath = []
           let keys = Object.keys(retreiveDpFiles);
           for(let i = 0; i < keys.length; i++){
-            if(retreiveDpFiles[i].dpClName === storePath.toString() ) {
+            //for (let index = 0; index < (this.files2).length; index++) {
+              //console.log( "inside the loop one ")
+              if(retreiveDpFiles[i].dpClName === storePath.toString() ) {
+                holdLowerpath.push(retreiveDpFiles[i].dpClPath)
+              }
+          } 
+          //console.log( "holdLowerpath " + holdLowerpath)
+         // for (let index = 0; index < holdLowerpath.length; index++){  
+          //  setInterval(async () => {
+              console.log( "inside the looptwo");
+              await this.dpService.dpPathFiles(holdLowerpath[0]);
               console.log( "inside the loop");
-              holdLowerpath.push(retreiveDpFiles[i].dpClPath)
-            }
+              await this.dpService.dPDownloadFromNode();
+              await this.gdService.gDUploadFromNode();
+              setTimeout(async() => {await this.gdService.gDUpdateFileName()}, 5000);
           }
-          //.substring(storePath.indexOf("/")
-          let storeRetrivedDpId = holdLowerpath[0];
-          console.log( "storeRetrivedDpId " + storeRetrivedDpId);
-          await this.dpService.dpPathFiles(storeRetrivedDpId);
-          await this.dpService.dPDownloadFromNode();
-          await this.gdService.gDUploadFromNode();
-          setTimeout(async() => {await this.gdService.gDUpdateFileName()}, 5000);
-        }  
-      /*  if(this.service1 === 1) {
-       //  console.log( "this.files2[0] " + this.files2[0])
-         let gdStoreName = (this.files2[0]).toString();
-         let holdGdIdFiles = [];
-         let keys = Object.keys(holdClientFilesToDisplay);
-         for (let index = 0; index < keys.length; index++) {
-           if(holdClientFilesToDisplay[index].gdClName === gdStoreName.toString() ) {
-            console.log( "inside the loop");
-            holdGdIdFiles.push(holdClientFilesToDisplay[index].gdClId)
-          }   
-         }
-     
-          await this.gdService.getGdId(holdGdIdFiles[0],gdStoreName );
-          let gdDownloadResult:any = await this.gdService.gDDownloadFromNode();
-          console.log("gdDownloadResult " + gdDownloadResult); 
-          await this.dpService.dPUploadFromNode()
-           
-           }  */
        /*  if(this.service2 === 1) {
           this.addGDFile();
         }
@@ -264,6 +265,8 @@ export class FiletransferComponent implements OnInit {
         } */
       }
     }
+  }
+}
     clientEmailValue(v: string) {
       if(localStorage.getItem('gdUserEmail') == null){
         this.gdEmail = v;
@@ -340,10 +343,10 @@ export class FiletransferComponent implements OnInit {
   for(let i = 0; i < keys.length; i++){
      
     holdArrayRetrieved.push(retreiveDpFiles[i].dpClName)
-    this.files1.push((holdArrayRetrieved[i]));
+    //this.files1.push((holdArrayRetrieved[i]));
   }
-  /* let newFilteredFiles = buildFileListByFilter(filterName, holdArrayRetrieved )
-  //console.log("newFilteredFiles " + newFilteredFiles)
+   let newFilteredFiles = buildFileListByFilter(filterName, holdArrayRetrieved )
+  console.log("newFilteredFiles " + newFilteredFiles)
 
    for(let i = 0; i < newFilteredFiles.length; i++){
       this.files1.push((newFilteredFiles[i])); 
@@ -354,7 +357,7 @@ export class FiletransferComponent implements OnInit {
       console.log("intersection " + intersection)
     for (let index = 0; index < intersection.length; index++) {
       this.folders.push(intersection[index]);   
-    } */
+    }
    window.history.replaceState(null, null, window.location.pathname);
  }
 
@@ -365,7 +368,6 @@ export class FiletransferComponent implements OnInit {
       return gapi.client
       .request({
         method: 'POST',
-              //https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id'
         path: 'https://www.googleapis.com/upload/drive/v3/files?uploadType=media',
         'headers': {
           'Content-Type': 'text/plain',
