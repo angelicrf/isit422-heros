@@ -128,8 +128,8 @@ export class FiletransferComponent implements OnInit {
           fList += value.substr(0, value.indexOf(" "));
         cnt++;
       }
-    })
-
+    });
+    console.log("fList is " + fList);
     return fList;
   }
 
@@ -333,31 +333,37 @@ export class FiletransferComponent implements OnInit {
  
   retreiveDpFiles = await this.dpService.dpGetFilesList(displayResult)
   
-  let filterName = 'Images';
-  //this.filterList(this.filters, 0);
-  //console.log("retreiveDpFiles is " + JSON.stringify(retreiveDpFiles))
-  
-  let keys = Object.keys(retreiveDpFiles);
+  let filterName = this.filterList(this.filters, this.service1);
   let holdArrayRetrieved = []
-  
-  for(let i = 0; i < keys.length; i++){
-     
+  //condition to filter
+  if(filterName === null || filterName === ""){
+  let keys = Object.keys(retreiveDpFiles);
+  for(let i = 0; i < keys.length; i++){   
     holdArrayRetrieved.push(retreiveDpFiles[i].dpClName)
-    //this.files1.push((holdArrayRetrieved[i]));
+    this.files1.push((holdArrayRetrieved[i]));
+  }
+  }
+  else{
+    let keys = Object.keys(retreiveDpFiles);
+  for(let i = 0; i < keys.length; i++){   
+    holdArrayRetrieved.push(retreiveDpFiles[i].dpClName)
   }
    let newFilteredFiles = buildFileListByFilter(filterName, holdArrayRetrieved )
   console.log("newFilteredFiles " + newFilteredFiles)
-
+   let storedFiles = holdArrayRetrieved.filter(
+     element => element.indexOf('.') != -1
+   )
    for(let i = 0; i < newFilteredFiles.length; i++){
       this.files1.push((newFilteredFiles[i])); 
    };
    let intersection: string[] = holdArrayRetrieved.filter(
-     element => !newFilteredFiles.includes(element)  
+     element => !newFilteredFiles.includes(element) && !storedFiles.includes(element)  
       );
       console.log("intersection " + intersection)
     for (let index = 0; index < intersection.length; index++) {
       this.folders.push(intersection[index]);   
     }
+  }
    window.history.replaceState(null, null, window.location.pathname);
  }
 

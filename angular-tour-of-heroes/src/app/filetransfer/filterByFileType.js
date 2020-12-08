@@ -49,7 +49,7 @@ export function buildFileListByFilter(filterName, masterFileList ) {
 		}
 		holdSelectedFiles.push(definedIT);
 	   }
-	   if(newFilterName === "DOCS"){
+	   if(newFilterName === "DOCUMENTS"){
 		console.log("inside docs")
 		let definedDC = '';
        	for (let index = 0; index < DOCS.length; index++) {
@@ -59,7 +59,7 @@ export function buildFileListByFilter(filterName, masterFileList ) {
 	}
 	 holdSelectedFiles.push(definedDC);
 	}
-    if(newFilterName === "VIDEO"){
+    if(newFilterName === "VIDEOS"){
 	console.log("inside video")
 	let definedVD = '';
 	for (let index = 0; index < VIDEO.length; index++) {
