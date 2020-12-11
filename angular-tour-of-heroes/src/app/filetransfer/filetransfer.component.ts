@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FilterService } from '../filter.service';
-import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { GdCloudService } from '../gd-cloud.service';
 import { DpCloudService } from '../dp-cloud.service';
-import {buildFileListByFilter} from '../filetransfer/filterByFileType.js';
+import { CheckCategories, buildFileListByFilter } from '../filetransfer/filterByFileType.js';
 import { GDClientCredentials } from '../gdClientCredentials';
 let clFile: string[];
 let showData: string;
@@ -416,15 +416,35 @@ export class FiletransferComponent implements OnInit {
     console.log("holdUserData " + holdUserData)
   }
   
-  /** Predicate function that only allows filtered types to be dropped into a list */
-  filterPredicate(item: CdkDrag<String>) {
-    return item.data === "";
-  }
-
-  /** Predicate function that doesn't allow items to be dropped into a list. */
-  noReturnPredicate() {
-    return false;
-  }
+  // /** Predicate function that only allows filtered types to be dropped into a list */
+  // async filterPredicate(item: CdkDrag<String>, list: CdkDropList) {
+  //   var re = /(?:\.([^.]+))?$/;
+    
+  //   if(list.id === "left") {
+  //     console.log("left")
+  //     // if(this.filters.length > 0 && this.filters.includes(this.serviceNames[this.service1])) {
+  //     //   let check = re.exec(item.data.toString())[1];
+  //     //   console.log(check);
+  //     //   if(CheckCategories(check)) {
+  //     //     return true;
+  //     //   }
+  //     //   else return false;
+  //     // }
+  //   }
+  //   if(list.id === "right") {
+  //     let filterName = this.filterList(this.filters, this.service2);
+  //     //
+  //     if(filterName) {
+  //       console.log("right")
+  //       //let check = re.exec(item.data.toString())[1];
+  //       // console.log(check);
+  //       // if(CheckCategories(check)) {
+  //       //   return true;
+  //       // }
+  //       // else return false;
+  //     }   
+  //   }
+  // }
 
   async getFiles() {
     console.log("getFiles called")

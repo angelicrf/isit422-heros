@@ -21,19 +21,19 @@ const IMAGES = [
 const AUDIO = [
 	'au',
     'midi',
-	 'mp3',
-	 'm4a',
-	 'ogg',
+	'mp3',
+	'm4a',
+	'ogg',
 	'ra',
 	'ram',
 	'wav'
 ]
 const VIDEO = [
 	'avi',
-	 'mpeg',
-	 'mp4',
-	 'mov',
-	 'wmv'	
+	'mpeg',
+	'mp4',
+	'mov',
+	'wmv'	
 ]
 export function buildFileListByFilter(filterName, masterFileList ) {
 	let newFilterName = filterName.toUpperCase();
@@ -88,6 +88,14 @@ export function buildFileListByFilter(filterName, masterFileList ) {
 		//console.log("splitItems is " +  (splitItems.toString().split(',')).length)
 		return (splitItems.toString().split(','));
 	}
-
-
-		
+export function CheckCategories(filter) {
+	if(DOCS.includes(filter))
+		return true;
+	if(IMAGES.includes(filter))
+		return true;
+	if(AUDIO.includes(filter))
+		return true;
+	if(VIDEO.includes(filter))
+		return true;
+	else return false;
+}
